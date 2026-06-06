@@ -72,8 +72,8 @@ export default function Footer({ onOpenAuth, onOpenAdmin, socials, user }: Foote
             </li>
             <li className="flex items-center gap-2">
               <Mail className="w-3.5 h-3.5 text-gold-500 flex-shrink-0" />
-              <a href="mailto:info@secretfragrance.com" className="hover:text-gold-200 transition-colors">
-                info@secretfragrance.com
+              <a href="mailto:secretfragrance.us@gmail.com" className="hover:text-gold-200 transition-colors">
+                secretfragrance.us@gmail.com
               </a>
             </li>
           </ul>

@@ -18,7 +18,7 @@ service cloud.firestore {
 
     function isAdmin() {
       return isSignedIn() && (
-        request.auth.token.email == "secret@x.com" ||
+        (request.auth.token.email != null && request.auth.token.email == "secret@x.com") ||
         exists(/databases/$(database)/documents/admins/$(request.auth.uid))
       );
     }
@@ -77,8 +77,8 @@ service cloud.firestore {
       allow create: if true;
       
       // Only the Admin or the Creator of the order (matched by email) can read the order details
-      allow get: if isAdmin() || (isSignedIn() && existing().customerEmail == request.auth.token.email);
-      allow list: if isAdmin() || (isSignedIn() && resource.data.customerEmail == request.auth.token.email);
+      allow get: if (isSignedIn() && request.auth.token.email != null && existing().customerEmail == request.auth.token.email) || isAdmin();
+      allow list: if (isSignedIn() && request.auth.token.email != null && resource.data.customerEmail == request.auth.token.email) || isAdmin();
       
       // Only admins can update (status check-off, POS etc) or delete orders
       allow update, delete: if isAdmin();
@@ -87,7 +87,12 @@ service cloud.firestore {
     // 6. ADMIN REFERENCE
     match /admins/{uid} {
       allow read: if true; // Allow checking if uid is admin
-      allow write: if isAdmin() || isSeedingAllowed() || (isSignedIn() && request.auth.token.email == "secret@x.com");
+      allow write: if (isSignedIn() && request.auth.token.email != null && request.auth.token.email == "secret@x.com") || isAdmin() || isSeedingAllowed();
+    }
+
+    // 7. USER PROFILES
+    match /users/{userId} {
+      allow read, write: if (isSignedIn() && request.auth.uid == userId) || isAdmin();
     }
   }
 }

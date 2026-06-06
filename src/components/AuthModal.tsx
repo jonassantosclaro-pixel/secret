@@ -142,11 +142,6 @@ export default function AuthModal({ onClose, onAuthSuccess }: AuthModalProps) {
           <p className="text-[11px] text-zinc-400 font-serif">
             {isRegister ? 'Register your luxury profile' : 'Sign in to access precious values'}
           </p>
-          {!isRegister && (
-            <div className="mx-auto max-w-[285px] p-2 bg-gold-400/5 border border-gold-300/15 rounded text-[9.5px] font-mono text-gold-200/80 text-center uppercase tracking-wider leading-relaxed">
-              🔑 Admin Access: <strong className="text-gold-300">secret@x.com</strong> / <strong className="text-gold-300">secret4321</strong>
-            </div>
-          )}
         </div>
 
         {/* Auth Error Display */}
