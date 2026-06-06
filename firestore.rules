@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isUserVerified() {
+      return isSignedIn() && (request.auth.token.email_verified == true || request.auth.token.firebase.sign_in_provider == 'anonymous');
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == "secret@x.com" ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isSeedingAllowed() {
+      return !exists(/databases/$(database)/documents/admins/bootstrap_secret);
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Collection rules
+
+    // 1. PRODUCTS
+    match /products/{productId} {
+      allow read: if true; // Public list and details
+      allow create, delete: if isAdmin() || isSeedingAllowed();
+      allow update: if isAdmin() || isSeedingAllowed() || (
+        // Allow anyone/customers to decrement stock and update updatedAt during ordering
+        incoming().diff(existing()).affectedKeys().hasOnly(['stock', 'updatedAt']) &&
+        incoming().stock is int &&
+        incoming().stock < existing().stock
+      );
+    }
+
+    // 2. BRANDS
+    match /brands/{brandId} {
+      allow read: if true; // Public list
+      allow write: if isAdmin() || isSeedingAllowed(); // Admin CRUD or Seeding
+    }
+
+    // 3. COUPONS
+    match /coupons/{couponId} {
+      allow read: if true; // Anyone can check coupon codes to validate at checkout
+      allow write: if isAdmin() || isSeedingAllowed(); // Admin CRUD or Seeding
+    }
+
+    // 4. SOCIALS / SETTINGS
+    match /socials/{docId} {
+      allow read: if true; // Public social links
+      allow write: if isAdmin() || isSeedingAllowed(); // Admin editing or Seeding
+    }
+
+    // 5. ORDERS
+    match /orders/{orderId} {
+      // Anyone can place an order (allowing Guest and Authenticatos)
+      allow create: if true;
+      
+      // Only the Admin or the Creator of the order (matched by email) can read the order details
+      allow get: if isAdmin() || (isSignedIn() && existing().customerEmail == request.auth.token.email);
+      allow list: if isAdmin() || (isSignedIn() && resource.data.customerEmail == request.auth.token.email);
+      
+      // Only admins can update (status check-off, POS etc) or delete orders
+      allow update, delete: if isAdmin();
+    }
+
+    // 6. ADMIN REFERENCE
+    match /admins/{uid} {
+      allow read: if true; // Allow checking if uid is admin
+      allow write: if isAdmin() || isSeedingAllowed() || (isSignedIn() && request.auth.token.email == "secret@x.com");
+    }
+  }
+}

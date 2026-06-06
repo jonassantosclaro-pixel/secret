@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-display: "Cinzel", "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-gold-50: #fbf8eb;
+  --color-gold-100: #f4ecce;
+  --color-gold-200: #e8d79c;
+  --color-gold-300: #dbbf64;
+  --color-gold-400: #cfa73a;
+  --color-gold-500: #b58f27; /* Rich Gold */
+  --color-gold-650: #937119;
+  --color-gold-700: #7c5e13;
+  --color-gold-800: #553e0a;
+  --color-gold-900: #352504;
+
+  /* Immersive UI Design Theme Variables */
+  --color-theme-gold: #D4AF37;
+  --color-theme-dark-gold: #AA8C2C;
+  --color-theme-bg-black: #050505;
+  --color-theme-surface: #121212;
+  --color-theme-muted: #8E8E8E;
+
+  --animate-shimmer: shimmer 2.5s infinite linear;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s infinite alternate;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.2); }
+  100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+}
+
+/* Custom styles and overrides */
+body {
+  font-family: var(--font-sans);
+  background-color: #050505;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Premium custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #AA8C2C;
+}
+
+/* Gold text shimmer effect for luxury texts */
+.text-shimmer-gold {
+  background: linear-gradient(to right, #D4AF37 20%, #f4ecce 40%, #AA8C2C 60%, #D4AF37 80%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+/* Immersive UI Specific Classes */
+.luxury-font {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.border-gold {
+  border: 1px solid #D4AF37;
+}
+
+.text-gold {
+  color: #D4AF37;
+}
+
+.bg-overlay {
+  background: radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 0.4) 0%, rgba(5, 5, 5, 0.95) 100%);
+}
+
+.brand-strip {
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.product-card-theme {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.product-card-theme:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.glow {
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+/* Background wallpaper with overlay */
+.luxe-wallpaper {
+  background-image: radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 0.3) 0%, rgba(5, 5, 5, 0.96) 100%), 
+    url('https://i.postimg.cc/ZnxBY65s/714670297-1487500499358209-5561141093356440737-n.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: #050505;
+}
+
+/* Luxury border styles */
+.border-gold-gradient {
+  border-image: linear-gradient(to right, #D4AF37, #553e0a, #D4AF37) 1;
+}
+
+/* Glassmorphism card */
+.glass-gold-card {
+  background: rgba(18, 18, 18, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.glass-gold-card:hover {
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.glow-shimmer {
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+}
