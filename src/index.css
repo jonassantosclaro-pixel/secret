@@ -127,6 +127,21 @@ body {
   background-color: #050505;
 }
 
+@media (max-width: 768px) {
+  .luxe-wallpaper {
+    background-attachment: scroll; /* fixes lag and zooming on mobile screens/iOS */
+  }
+}
+
+/* Hide scrollbars but keep functionality */
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+}
+.scrollbar-none {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
 /* Luxury border styles */
 .border-gold-gradient {
   border-image: linear-gradient(to right, #D4AF37, #553e0a, #D4AF37) 1;

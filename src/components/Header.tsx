@@ -200,7 +200,7 @@ export default function Header({
         )}
 
         {/* Quick Horizontal categories line */}
-        <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto py-2.5 scrollbar-none border-t border-gold-300/10 select-none">
+        <div className="flex flex-nowrap items-center gap-1 sm:gap-2 overflow-x-auto py-2.5 scrollbar-none border-t border-gold-300/10 select-none -webkit-overflow-scrolling-touch">
           <button
             onClick={() => { setSelectedCategory("all"); setCurrentBrand(""); }}
             className={`flex-shrink-0 px-3.5 py-1 text-[10px] tracking-wider uppercase rounded-full border transition-all cursor-pointer ${
