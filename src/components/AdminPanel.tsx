@@ -13,13 +13,14 @@ import {
   collection, doc, setDoc, addDoc, updateDoc, deleteDoc, 
   onSnapshot, query, orderBy, Timestamp, getDocs 
 } from 'firebase/firestore';
-import { Product, Brand, Coupon, Socials, Order, OperationType } from '../types';
+import { Product, Brand, CategoryObj, Coupon, Socials, Order, OperationType } from '../types';
 
 interface AdminPanelProps {
   onClose: () => void;
   products: Product[];
   brands: Brand[];
   coupons: Coupon[];
+  categories: CategoryObj[];
   socials: Socials;
 }
 
@@ -28,9 +29,10 @@ export default function AdminPanel({
   products,
   brands,
   coupons,
+  categories,
   socials
 }: AdminPanelProps) {
-  const [activeTab, setActiveTab] = useState<'products' | 'brands' | 'pos' | 'coupons' | 'orders' | 'socials'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'brands' | 'categories' | 'pos' | 'coupons' | 'orders' | 'socials'>('products');
   
   // Real-time Orders loading inside Admin Panel
   const [orders, setOrders] = useState<Order[]>([]);
@@ -147,6 +149,90 @@ export default function AdminPanel({
     } catch (err) {
       handleFirestoreError(err, OperationType.DELETE, `products/${pId}`);
     }
+  };
+
+  // CATEGORIES CRUD State
+  const [editingCategory, setEditingCategory] = useState<CategoryObj | null>(null);
+  const [catForm, setCatForm] = useState({
+    name: '',
+    slug: '',
+    order: ''
+  });
+
+  const generateSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .normalize('NFD') // Normalize special chars / accents
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+      .replace(/[^a-z0-9\s-]/g, '') // Keep alphanumeric, space and hyphen
+      .trim()
+      .replace(/\s+/g, '-'); // Replace space with hyphen
+  };
+
+  const handleCatNameChange = (val: string) => {
+    setCatForm(prev => ({
+      ...prev,
+      name: val,
+      slug: editingCategory ? prev.slug : generateSlug(val)
+    }));
+  };
+
+  const handleCategorySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!catForm.name.trim() || !catForm.slug.trim()) {
+      alert('Por favor, preencha o nome e o slug da categoria!');
+      return;
+    }
+
+    try {
+      const slugVal = generateSlug(catForm.slug);
+      const cData = {
+        name: catForm.name.trim(),
+        slug: slugVal,
+        order: Number(catForm.order) || (categories.length + 1)
+      };
+
+      if (editingCategory?.id) {
+        const cRef = doc(db, 'categories', editingCategory.id);
+        await updateDoc(cRef, {
+          ...cData,
+          updatedAt: Timestamp.now()
+        });
+        alert('Categoria editada com sucesso no menu!');
+      } else {
+        const cRef = doc(db, 'categories', slugVal);
+        await setDoc(cRef, {
+          ...cData,
+          createdAt: Timestamp.now(),
+          updatedAt: Timestamp.now()
+        });
+        alert('Nova categoria criada e adicionada ao menu com sucesso!');
+      }
+
+      setEditingCategory(null);
+      setCatForm({ name: '', slug: '', order: '' });
+    } catch (err) {
+      handleFirestoreError(err, OperationType.WRITE, 'categories');
+    }
+  };
+
+  const handleDeleteCategory = async (catId: string) => {
+    if (!confirm('Deseja realmente excluir esta categoria? Os produtos vinculados continuarão no sistema, mas não serão listados sob esta categoria até que você redefina suas categorias olfativas.')) return;
+    try {
+      await deleteDoc(doc(db, 'categories', catId));
+      alert('Categoria removida do menu de navegação!');
+    } catch (err) {
+      handleFirestoreError(err, OperationType.DELETE, `categories/${catId}`);
+    }
+  };
+
+  const handleEditCategoryClick = (cat: CategoryObj) => {
+    setEditingCategory(cat);
+    setCatForm({
+      name: cat.name,
+      slug: cat.slug || '',
+      order: String(cat.order || '')
+    });
   };
 
   // 2. BRAND CRUD State
@@ -310,9 +396,9 @@ export default function AdminPanel({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <img 
-                src="https://i.postimg.cc/6qJnp9Ld/Chat-GPT-Image-6-06-2026-12-02-47.png" 
+                src="https://i.postimg.cc/ht7MNG1H/Chat-GPT-Image-9-06-2026-10-55-29.png" 
                 alt="Logo" 
-                className="w-10 h-10 object-contain rounded-full"
+                className="w-10 h-10 object-contain rounded-full border border-cyan-500/30 p-0.5 filter drop-shadow-[0_0_6px_rgba(6,182,212,0.5)]"
                 referrerPolicy="no-referrer"
               />
               <div>
@@ -340,6 +426,13 @@ export default function AdminPanel({
             >
               <Layers className="w-3.5 h-3.5" />
               Brands Admin
+            </button>
+            <button 
+              onClick={() => setActiveTab('categories')}
+              className={`flex items-center gap-2 px-3 py-2 text-[10px] tracking-wider uppercase rounded transition-all flex-shrink-0 cursor-pointer ${activeTab === 'categories' ? 'bg-gold-500 text-gold-950 font-bold' : 'text-zinc-400 hover:bg-[#1a1814] hover:text-gold-300'}`}
+            >
+              <Sliders className="w-3.5 h-3.5" />
+              Categories Menu
             </button>
             <button 
               onClick={() => setActiveTab('pos')}
@@ -461,12 +554,14 @@ export default function AdminPanel({
                     <select 
                       value={prodForm.category} 
                       onChange={e => setProdForm({ ...prodForm, category: e.target.value })}
-                      className="w-full bg-[#14120f] border border-gold-300/15 rounded p-2 text-xs text-gold-50 focus:outline-none"
+                      className="w-full bg-[#14120f] border border-gold-300/15 rounded p-2 text-xs text-gold-50 focus:outline-none focus:border-gold-500"
                     >
-                      <option value="masculine">Masculino</option>
-                      <option value="feminine">Feminino</option>
-                      <option value="unisex">Unissex</option>
-                      <option value="niche">Nicho / Intenso</option>
+                      <option value="">Selecionar categoria...</option>
+                      {categories.map((cat) => (
+                        <option key={cat.slug} value={cat.slug}>
+                          {cat.name.toUpperCase()}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -584,7 +679,7 @@ export default function AdminPanel({
                       </button>
                       
                       <div className="w-14 h-14 bg-neutral-950 rounded-full flex items-center justify-center p-1 overflow-hidden border border-gold-300/5 mb-2">
-                        <img src={b.logoUrl} alt={b.name} className="w-full h-full object-contain filter brightness-95" onError={e => (e.target as HTMLImageElement).src = "https://i.postimg.cc/6qJnp9Ld/Chat-GPT-Image-6-06-2026-12-02-47.png"} referrerPolicy="no-referrer" />
+                        <img src={b.logoUrl} alt={b.name} className="w-full h-full object-contain filter brightness-95" onError={e => (e.target as HTMLImageElement).src = "https://i.postimg.cc/ht7MNG1H/Chat-GPT-Image-9-06-2026-10-55-29.png"} referrerPolicy="no-referrer" />
                       </div>
                       <span className="font-mono text-[9.5px] uppercase tracking-wider text-gold-150 truncate max-w-full font-bold">{b.name}</span>
                     </div>
@@ -832,6 +927,141 @@ export default function AdminPanel({
                     Save Social Links
                   </button>
                 </form>
+              </div>
+            )}
+
+            {/* Categories Menu config tab */}
+            {activeTab === 'categories' && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-serif text-gold-150 flex items-center gap-2">
+                    <Sliders className="w-5 h-5 text-gold-500" />
+                    Category Management & Navigation Menu
+                  </h3>
+                  <p className="text-xs text-zinc-500">
+                    Add, remove, or edit your storefront navigation menu. Change display names, automatic identifier slugs, or display order.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                  {/* Create/Edit Category Form */}
+                  <form onSubmit={handleCategorySubmit} className="lg:col-span-5 bg-[#0c0b08]/85 border border-gold-300/10 p-5 rounded-lg space-y-4">
+                    <h4 className="text-xs font-mono uppercase tracking-widest text-gold-300 border-b border-gold-300/10 pb-2">
+                      {editingCategory ? 'Editar Categoria' : 'Nova Categoria de Produto'}
+                    </h4>
+                    
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-1.5">Nome de Exibição *</label>
+                      <input 
+                        type="text" 
+                        required 
+                        value={catForm.name} 
+                        onChange={e => handleCatNameChange(e.target.value)}
+                        placeholder="Ex: Masculino, Promoções, Edições Limitadas"
+                        className="w-full bg-[#14120f] border border-gold-300/15 rounded p-2.5 text-xs text-gold-50 focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-1.5">Identificador Único (Slug) *</label>
+                      <input 
+                        type="text" 
+                        required 
+                        value={catForm.slug} 
+                        onChange={e => setCatForm({ ...catForm, slug: generateSlug(e.target.value) })}
+                        placeholder="Ex: masculino, promocoes, edicoes-limitadas"
+                        className="w-full bg-[#14120f] border border-gold-300/15 rounded p-2.5 text-xs text-gold-50 focus:outline-none focus:border-gold-500"
+                      />
+                      <span className="text-[10px] text-zinc-500 mt-1 block">
+                        O slug determina a correspondência exata para filtrar os produtos. Use letras, números e hífens.
+                      </span>
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-1.5">Ordem de Exibição (Número)</label>
+                      <input 
+                        type="number" 
+                        value={catForm.order} 
+                        onChange={e => setCatForm({ ...catForm, order: e.target.value })}
+                        placeholder="Ex: 5"
+                        className="w-full bg-[#14120f] border border-gold-300/15 rounded p-2.5 text-xs text-gold-50 focus:outline-none focus:border-gold-500"
+                      />
+                      <span className="text-[10px] text-zinc-500 mt-1 block">
+                        Define em qual posição do menu esta categoria aparecerá (menor número aparece primeiro).
+                      </span>
+                    </div>
+
+                    <div className="flex gap-2 pt-2">
+                       {editingCategory && (
+                         <button 
+                           type="button" 
+                           onClick={() => {
+                             setEditingCategory(null);
+                             setCatForm({ name: '', slug: '', order: '' });
+                           }}
+                           className="flex-1 py-2 border border-zinc-700 hover:bg-neutral-800 text-xs text-zinc-300 uppercase rounded cursor-pointer transition-colors"
+                         >
+                           Cancelar
+                         </button>
+                       )}
+                       <button 
+                         type="submit" 
+                         className="flex-1 py-2 bg-gradient-to-r from-gold-300 to-gold-400 text-neutral-950 font-bold text-xs uppercase tracking-wider rounded cursor-pointer hover:brightness-110 active:scale-95 transition-all"
+                       >
+                         {editingCategory ? 'Salvar Categoria' : 'Adicionar no Menu'}
+                       </button>
+                    </div>
+                  </form>
+
+                  {/* List of Existing Categories */}
+                  <div className="lg:col-span-7 bg-[#0c0b08]/50 border border-gold-300/10 p-5 rounded-lg space-y-4">
+                    <h4 className="text-xs font-mono uppercase tracking-widest text-gold-300 border-b border-gold-300/10 pb-2">
+                      Categorias Ativas ({categories.length})
+                    </h4>
+
+                    {categories.length === 0 ? (
+                      <p className="text-xs text-zinc-500">Nenhuma categoria registrada.</p>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse text-xs">
+                          <thead>
+                            <tr className="border-b border-gold-300/10 text-gold-300/60 font-mono text-[9px] uppercase tracking-wider pb-2">
+                              <th className="py-2 pr-4">Ordem</th>
+                              <th className="py-2 pr-4">Nome de Exibição</th>
+                              <th className="py-2 pr-4">Slug Identificador</th>
+                              <th className="py-2 text-right">Ações</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gold-300/5 text-zinc-300">
+                            {categories.map((cat) => (
+                              <tr key={cat.id || cat.slug} className="hover:bg-[#12100d]/40 transition-colors">
+                                <td className="py-3 pr-4 font-mono font-bold text-gold-400">{cat.order || '-'}</td>
+                                <td className="py-3 pr-4 font-medium text-white">{cat.name}</td>
+                                <td className="py-3 pr-4 font-mono text-[11px] text-zinc-500">{cat.slug}</td>
+                                <td className="py-3 text-right space-x-1">
+                                  <button 
+                                    onClick={() => handleEditCategoryClick(cat)} 
+                                    className="p-1.5 text-gold-400 hover:bg-[#1d1912] rounded transition-colors" 
+                                    title="Editar categoria"
+                                  >
+                                    <Edit className="w-3.5 h-3.5" />
+                                  </button>
+                                  <button 
+                                    onClick={() => handleDeleteCategory(cat.id || cat.slug || '')} 
+                                    className="p-1.5 text-rose-400 hover:bg-rose-500/10 rounded transition-colors" 
+                                    title="Deletar categoria"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
 

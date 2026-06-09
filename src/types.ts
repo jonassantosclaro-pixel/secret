@@ -23,6 +23,14 @@ export interface Brand {
   createdAt?: any;
 }
 
+export interface CategoryObj {
+  id?: string;
+  name: string;
+  slug: string;
+  order: number;
+  createdAt?: any;
+}
+
 export interface CartItem {
   product: Product;
   quantity: number;

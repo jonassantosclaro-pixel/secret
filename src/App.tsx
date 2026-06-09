@@ -28,8 +28,30 @@ import {
   collection, onSnapshot, doc, getDoc, addDoc, updateDoc, 
   query, orderBy, writeBatch, increment, Timestamp 
 } from 'firebase/firestore';
-import { Product, Brand, Coupon, Socials, CartItem, UserProfile, OperationType } from './types';
+import { Product, Brand, CategoryObj, Coupon, Socials, CartItem, UserProfile, OperationType } from './types';
 import { OFFICIAL_BRANDS } from './constants/brands';
+
+const renderBrandLogo = (b: Brand) => {
+  return (
+    <div className="relative w-full h-[54px] flex items-center justify-center select-none p-1">
+      <img 
+        src={b.logoUrl} 
+        alt={b.name} 
+        className="max-w-full max-h-full object-contain rounded-lg transition-all duration-300 group-hover:scale-105 drop-shadow-[0_2px_10px_rgba(219,191,100,0.12)]"
+        referrerPolicy="no-referrer"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.style.display = 'none';
+          const parent = target.parentElement;
+          if (parent) {
+            const fontStyle = b.name.length > 10 ? 'text-[8.5px]' : 'text-[10.5px]';
+            parent.innerHTML = `<span class="font-serif ${fontStyle} tracking-wider text-[#dbbf64] font-medium uppercase text-center">${b.name}</span>`;
+          }
+        }}
+      />
+    </div>
+  );
+};
 
 export default function App() {
   // 1. Initial Launch state
@@ -39,6 +61,7 @@ export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [brands, setBrands] = useState<Brand[]>(OFFICIAL_BRANDS);
   const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [categories, setCategories] = useState<CategoryObj[]>([]);
   const [socials, setSocials] = useState<Socials>({
     whatsapp: "+1 (561) 668-7361",
     instagram: "https://instagram.com/secretfragranceloop",
@@ -106,7 +129,7 @@ export default function App() {
               fullName: currentUser.displayName || currentUser.email?.split('@')[0] || 'Member',
               email: currentUser.email || '',
               phone: '',
-              isAdmin: currentUser.email === 'secret@x.com'
+              isAdmin: currentUser.email === 'secret@x.com' || currentUser.email === 'jonassantosclaro@gmail.com'
             });
           }
         } catch (err) {
@@ -134,6 +157,24 @@ export default function App() {
       setProducts(prods);
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'products');
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Sync categories in real-time from Firestore
+  useEffect(() => {
+    const categoriesRef = collection(db, 'categories');
+    const q = query(categoriesRef, orderBy('order', 'asc'));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const cats: CategoryObj[] = [];
+      snapshot.forEach((doc) => {
+        cats.push({ id: doc.id, ...doc.data() } as CategoryObj);
+      });
+      setCategories(cats);
+    }, (error) => {
+      handleFirestoreError(error, OperationType.GET, 'categories');
     });
 
     return () => unsubscribe();
@@ -282,7 +323,7 @@ export default function App() {
   };
 
   const handleOpenAdminPanel = () => {
-    const isUserAdmin = user && (user.email === 'secret@x.com' || userProfile?.isAdmin);
+    const isUserAdmin = user && (user.email === 'secret@x.com' || user.email === 'jonassantosclaro@gmail.com' || userProfile?.isAdmin);
     if (isUserAdmin) {
       setIsAdminOpen(true);
     } else {
@@ -341,8 +382,6 @@ export default function App() {
       : true;
     return matchesBrand && matchesCategory && matchesSearch;
   });
-
-  const categories = ["masculine", "feminine", "unisex", "niche"];
 
   return (
     <div className="min-h-screen luxe-wallpaper flex flex-col justify-between">
@@ -441,9 +480,9 @@ export default function App() {
                         <div className="w-24 h-24 rounded-full border border-gold-500/20 p-1 flex items-center justify-center bg-black/80 relative">
                           <div className="absolute inset-x-0 bottom-0 top-0 bg-gold-500/5 rounded-full blur-lg pointer-events-none" />
                           <img 
-                            src="https://i.postimg.cc/6qJnp9Ld/Chat-GPT-Image-6-06-2026-12-02-47.png" 
+                            src="https://i.postimg.cc/ht7MNG1H/Chat-GPT-Image-9-06-2026-10-55-29.png" 
                             alt="Secret Fragrance Seal" 
-                            className="w-full h-full object-contain p-1.5 rounded-full animate-float"
+                            className="w-full h-full object-contain p-1 rounded-full animate-float filter drop-shadow-[0_0_12px_rgba(6,182,212,0.8)]"
                             referrerPolicy="no-referrer"
                           />
                         </div>
@@ -464,39 +503,46 @@ export default function App() {
 
             {/* SHOP BY BRAND SECTION */}
             <section id="shop-brands-section" className="space-y-6 pt-4 scroll-mt-24">
-              <div className="text-center space-y-1">
+              <div className="text-center space-y-1.5 my-5">
                 <h3 className="font-serif text-xl sm:text-2xl text-gold-150">Shop by Official Brand</h3>
-                <p className="text-xs text-zinc-500 uppercase tracking-widest">Select a house to filter premium formulas instantly</p>
+                <div className="flex items-center justify-center -my-0.5">
+                  <svg className="w-4 h-4 text-[#dbbf64]/80 rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                    <rect x="7" y="7" width="10" height="10" fill="currentColor" fillOpacity="0.25" />
+                    <circle cx="12" cy="12" r="2.5" fill="currentColor" fillOpacity="0.4" stroke="none" />
+                  </svg>
+                </div>
+                <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em] font-medium leading-relaxed max-w-sm mx-auto">
+                  SELECT A HOUSE TO FILTER<br/>PREMIUM FORMULAS INSTANTLY
+                </p>
               </div>
 
-              {/* Dynamic Brands grid */}
-              <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 gap-4">
-                {brands.map((b) => (
-                  <button
-                    key={b.id}
-                    onClick={() => setCurrentBrand(currentBrand.toUpperCase() === b.name.toUpperCase() ? '' : b.name)}
-                    className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center transition-all duration-300 cursor-pointer ${
-                      currentBrand.toUpperCase() === b.name.toUpperCase()
-                        ? "bg-[#181510] border-gold-500 shadow-[0_0_15px_rgba(219,191,100,0.15)]"
-                        : "bg-[#0c0b08]/75 border-gold-300/10 hover:border-gold-300/30 hover:bg-[#11100d]"
-                    }`}
-                  >
-                    <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center p-1 bg-neutral-950 select-none mb-2">
-                      <img 
-                        src={b.logoUrl} 
-                        alt={b.name} 
-                        className="w-full h-full object-contain filter brightness-95"
-                        referrerPolicy="no-referrer"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = "https://i.postimg.cc/6qJnp9Ld/Chat-GPT-Image-6-06-2026-12-02-47.png";
-                        }}
-                      />
-                    </div>
-                    <span className="font-mono text-[9px] uppercase font-bold tracking-wider text-gold-300 w-full truncate leading-tight">
-                      {b.name}
-                    </span>
-                  </button>
-                ))}
+              {/* Dynamic Brands grid - exactly 3 columns on mobile, expanding gracefully on desktop */}
+              <div id="brands-showcase-grid" className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3">
+                {brands.map((b) => {
+                  const isActive = currentBrand.toUpperCase() === b.name.toUpperCase();
+                  return (
+                    <button
+                      key={b.id}
+                      id={`brand-filter-${b.id}`}
+                      onClick={() => setCurrentBrand(isActive ? '' : b.name)}
+                      className={`h-32 rounded-xl border flex flex-col items-center justify-between p-3 pb-2 text-center transition-all duration-300 cursor-pointer ${
+                        isActive
+                          ? "bg-gradient-to-b from-[#0f1931] to-[#070b14] border-[#dbbf64] shadow-[0_0_15px_rgba(219,191,100,0.25)] scale-[1.03]"
+                          : "bg-gradient-to-b from-[#09101f] to-[#04060c] border-[#dbbf64]/20 hover:border-gold-300/40 hover:bg-[#0b1223]"
+                      }`}
+                    >
+                      {/* Logo or custom typographic visualization */}
+                      <div className="w-full flex-1 flex items-center justify-center overflow-hidden mb-1.5">
+                        {renderBrandLogo(b)}
+                      </div>
+                      
+                      {/* Stylized subtitle label */}
+                      <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-zinc-400 font-medium leading-none block w-full truncate pt-2 border-t border-[#dbbf64]/10">
+                        {b.name}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </section>
 
@@ -682,6 +728,7 @@ export default function App() {
                 products={products}
                 brands={brands}
                 coupons={coupons}
+                categories={categories}
                 socials={socials}
               />
             )}

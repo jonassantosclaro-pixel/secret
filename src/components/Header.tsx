@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import { ShoppingBag, Search, User, LogOut, SlidersHorizontal, Sparkles, Settings, Instagram, MessageCircle } from 'lucide-react';
-import { UserProfile } from '../types';
+import { UserProfile, CategoryObj } from '../types';
 
 interface HeaderProps {
   user: any;
@@ -21,7 +21,7 @@ interface HeaderProps {
   setSelectedCategory: (val: string) => void;
   currentBrand: string;
   setCurrentBrand: (val: string) => void;
-  categories: string[];
+  categories: CategoryObj[];
 }
 
 export default function Header({
@@ -42,7 +42,7 @@ export default function Header({
 }: HeaderProps) {
   const [showSearch, setShowSearch] = useState(false);
 
-  const isAdmin = user && (user.email === "secret@x.com" || userProfile?.isAdmin);
+  const isAdmin = user && (user.email === "secret@x.com" || user.email === "jonassantosclaro@gmail.com" || userProfile?.isAdmin);
 
   return (
     <header id="main-header" className="sticky top-0 z-40 bg-[#090806]/85 backdrop-blur-md border-b border-gold-300/15 shadow-md">
@@ -51,12 +51,12 @@ export default function Header({
           
           {/* Brand Logo & Name */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => { setCurrentBrand(""); setSelectedCategory("all"); setSearchQuery(""); }}>
-            <div id="header-logo-container" className="relative w-12 h-12 rounded-full border border-gold-300/20 p-0.5 flex items-center justify-center bg-[#070605] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-400/5 to-transparent -translate-x-full animate-shimmer" />
+            <div id="header-logo-container" className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full border border-gold-300/30 p-0.5 flex items-center justify-center bg-[#070605] overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent -translate-x-full animate-shimmer" />
               <img 
-                src="https://i.postimg.cc/6qJnp9Ld/Chat-GPT-Image-6-06-2026-12-02-47.png" 
+                src="https://i.postimg.cc/ht7MNG1H/Chat-GPT-Image-9-06-2026-10-55-29.png" 
                 alt="Secret Fragrance Logo" 
-                className="w-full h-full object-contain rounded-full p-1"
+                className="w-full h-full object-contain rounded-full p-0.5 filter drop-shadow-[0_0_12px_rgba(6,182,212,0.8)] drop-shadow-[0_0_4px_rgba(219,191,100,0.5)] transition-transform duration-500 hover:scale-110"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -214,15 +214,15 @@ export default function Header({
 
           {categories.map((cat) => (
             <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              key={cat.slug}
+              onClick={() => setSelectedCategory(cat.slug)}
               className={`flex-shrink-0 px-3.5 py-1 text-[10px] tracking-wider uppercase rounded-full border transition-all cursor-pointer ${
-                selectedCategory === cat 
+                selectedCategory === cat.slug 
                   ? "bg-gold-500 text-gold-950 border-gold-500 font-bold"
                   : "bg-transparent text-gold-300/60 border-gold-300/10 hover:border-gold-300/30 hover:text-gold-200"
               }`}
             >
-              {cat}
+              {cat.name}
             </button>
           ))}
 

@@ -4,7 +4,23 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { X, MessageSquare, CreditCard, Sparkles, Check, ChevronRight } from 'lucide-react';
+import { 
+  X, 
+  MessageSquare, 
+  CreditCard, 
+  Sparkles, 
+  Check, 
+  ChevronRight, 
+  ShieldCheck, 
+  User, 
+  Phone, 
+  Mail, 
+  MapPin, 
+  Building, 
+  Truck, 
+  Award, 
+  Lock 
+} from 'lucide-react';
 import { CartItem, Coupon, OrderItem } from '../types';
 
 interface CheckoutModalProps {
@@ -183,53 +199,82 @@ export default function CheckoutModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
       <div 
         id="checkout-dialog-box"
-        className="w-full max-w-4xl bg-[#090806] border border-gold-300/20 rounded-xl overflow-hidden shadow-[0_0_80px_rgba(219,191,100,0.15)] flex flex-col max-h-[90vh]"
+        className="w-full max-w-[512px] bg-[#030712] border border-[#dbbf64]/30 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(219,191,100,0.18)] flex flex-col max-h-[92vh]"
       >
         {/* Header */}
-        <div className="p-5 border-b border-gold-300/10 flex items-center justify-between select-none bg-[#0d0c0a]">
-          <h3 className="font-display text-sm sm:text-base tracking-widest text-[#f5ebd0] font-bold uppercase flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-gold-500 animate-spin" />
-            Concierge Checkout Panel
-          </h3>
-          <button 
-            onClick={onClose}
-            className="p-1.5 text-zinc-400 hover:text-white hover:bg-[#151412] rounded-full transition-colors cursor-pointer"
-          >
-            <X className="w-5 h-5" />
-          </button>
+        <div className="p-5 border-b border-[#dbbf64]/10 flex items-center justify-between select-none bg-[#02050d] relative">
+          <div className="flex items-center gap-3">
+            <div className="w-8.5 h-8.5 rounded-full border border-[#dbbf64]/25 flex items-center justify-center text-[#dbbf64] bg-[#dbbf64]/5">
+              <ShieldCheck className="w-4.5 h-4.5" />
+            </div>
+            <div>
+              <h3 className="font-serif text-[11px] sm:text-xs tracking-[0.16em] text-[#ebdcb0] font-bold uppercase leading-tight">
+                SECURE CHECKOUT
+              </h3>
+              <p className="text-[9.5px] text-zinc-400 font-sans tracking-wide leading-none mt-0.5">
+                Your information is safe and encrypted
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            {/* Exquisite Mini Secret Logo */}
+            <div className="flex flex-col items-center">
+              <img 
+                src="https://i.postimg.cc/ht7MNG1H/Chat-GPT-Image-9-06-2026-10-55-29.png" 
+                alt="Secret logo" 
+                className="w-9 h-9 object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,0.7)]"
+                referrerPolicy="no-referrer"
+              />
+              <span className="font-serif tracking-[0.25em] text-[6.5px] text-[#dbbf64] font-bold leading-none mt-0.5 text-center">
+                SECRET
+              </span>
+              <span className="font-sans tracking-[0.2em] text-[5px] text-[#dbbf64]/70 leading-none text-center uppercase">
+                FRAGRANCE
+              </span>
+            </div>
+
+            {/* Close Button X */}
+            <button 
+              onClick={onClose}
+              className="p-1 text-zinc-400 hover:text-white hover:bg-white/5 rounded-full transition-all cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {placed ? (
           /* Placed Order Summary screen */
-          <div className="p-8 flex-1 overflow-y-auto flex flex-col items-center justify-center text-center space-y-6 select-none bg-[#090806]">
-            <div className="w-16 h-16 bg-gold-400/15 border border-gold-300/40 rounded-full flex items-center justify-center text-gold-400">
+          <div className="p-8 flex-1 overflow-y-auto flex flex-col items-center justify-center text-center space-y-6 select-none bg-[#030712]">
+            <div className="w-16 h-16 bg-[#dbbf64]/10 border border-[#dbbf64]/40 rounded-full flex items-center justify-center text-[#dbbf64] shadow-[0_0_20px_rgba(219,191,100,0.2)]">
               <Check className="w-8 h-8" />
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-serif text-xl text-gold-100 font-semibold tracking-wide">
+              <h4 className="font-serif text-lg text-gold-100 font-semibold tracking-wide">
                 Your Order has been logged!
               </h4>
-              <p className="text-xs text-zinc-400 max-w-md mx-auto leading-relaxed">
-                An official summary receipt starting with ID <span className="font-mono text-gold-300">#{orderId.substring(0, 8).toUpperCase()}</span> has been saved in our real-time inventory. We redirected you to complete scheduling via {routingChannel === 'whatsapp' ? 'WhatsApp message' : 'SMS / Text message'}.
+              <p className="text-xs text-zinc-400 max-w-sm mx-auto leading-relaxed">
+                An official summary receipt starting with ID <span className="font-mono text-gold-300">#{orderId.substring(0, 8).toUpperCase()}</span> has been saved in our real-time inventory. We redirected you to complete concierge validation on WhatsApp.
               </p>
             </div>
 
-            <div className="p-4 bg-[#11100d] border border-gold-500/10 rounded-md text-left text-xs max-w-sm space-y-2 font-mono">
-              <p className="text-gold-300 font-bold uppercase tracking-wider text-[10px] text-center border-b border-gold-500/10 pb-1.5 mb-1 bg-[#151412] p-1">Receipt Summary</p>
+            <div className="p-4 bg-[#02050c] border border-[#dbbf64]/15 rounded-xl text-left text-xs w-full max-w-xs space-y-2 font-mono shadow-inner">
+              <p className="text-[#dbbf64] font-bold uppercase tracking-wider text-[10px] text-center border-b border-[#dbbf64]/10 pb-1.5 mb-1 bg-[#010307]/50 p-1 rounded">Receipt Summary</p>
               <div className="flex justify-between text-zinc-400">
                 <span>Ref:</span>
-                <span className="text-white">#{orderId.toUpperCase()}</span>
+                <span className="text-white">#{orderId.substring(0, 12).toUpperCase()}</span>
               </div>
               <div className="flex justify-between text-zinc-400">
                 <span>Client:</span>
-                <span className="text-white">{formData.fullName}</span>
+                <span className="text-white truncate max-w-[150px]">{formData.fullName}</span>
               </div>
               <div className="flex justify-between text-zinc-400">
                 <span>Taxes (7%):</span>
                 <span>${tax.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-gold-300 font-bold">
+              <div className="flex justify-between text-[#dbbf64] font-bold">
                 <span>Final Paid:</span>
                 <span>${total.toFixed(2)}</span>
               </div>
@@ -237,265 +282,265 @@ export default function CheckoutModal({
 
             <button
               onClick={onClose}
-              className="px-8 py-2.5 bg-gradient-to-r from-gold-300 to-gold-400 hover:brightness-110 text-neutral-950 text-xs uppercase tracking-widest font-bold rounded transition-all cursor-pointer"
+              className="px-8 py-2.5 bg-gradient-to-r from-[#ebdcb0] via-[#dbbf64] to-[#7f6111] hover:brightness-110 text-zinc-950 text-xs uppercase tracking-widest font-bold rounded-lg transition-all cursor-pointer"
             >
               Continue shopping
             </button>
           </div>
         ) : (
           /* Active Checkout form screen */
-          <form onSubmit={handleCheckoutSubmit} className="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2">
+          <form onSubmit={handleCheckoutSubmit} className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6 bg-[#030712]">
             
-            {/* Left Column: Form data inputs */}
-            <div className="p-6 sm:p-8 space-y-6 border-b md:border-b-0 md:border-r border-gold-300/10 select-none">
-              <div className="space-y-1">
-                <h4 className="text-[10px] font-mono tracking-widest text-gold-400 uppercase font-semibold">
-                  Step 1
-                </h4>
-                <p className="font-serif text-lg text-gold-100">Concierge Shipping Info</p>
+            {/* SECTION 1: CONTACT INFORMATION */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 select-none">
+                <div className="w-8 h-8 rounded-full border border-[#dbbf64]/25 flex items-center justify-center text-[#dbbf64] bg-[#dbbf64]/5 flex-shrink-0">
+                  <User className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="font-serif text-[11px] sm:text-xs font-semibold text-[#dbbf64] tracking-[0.1em] uppercase">
+                    CONTACT INFORMATION
+                  </h4>
+                  <p className="text-[10px] text-zinc-400">
+                    Let's start with your contact details.
+                  </p>
+                </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {/* Full name input */}
-                <div>
-                  <label className="block text-[10px] font-mono tracking-wider uppercase text-zinc-400 mb-1.5">
-                    Full Name *
+                <div className="space-y-1">
+                  <label className="block text-[9px] font-mono tracking-widest uppercase text-zinc-400 font-medium">
+                    FULL NAME *
                   </label>
-                  <input
-                    type="text"
-                    required
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleInputChange}
-                    placeholder="E.g., Jonathan Santos"
-                    className="w-full bg-[#13110e] border border-gold-300/15 text-xs text-gold-100 rounded p-3 focus:outline-none focus:border-gold-400"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Phone input */}
-                  <div>
-                    <label className="block text-[10px] font-mono tracking-wider uppercase text-zinc-400 mb-1.5">
-                      Phone Number *
-                    </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                      <User className="w-4 h-4 text-[#dbbf64]/65" />
+                    </div>
                     <input
-                      type="tel"
+                      type="text"
                       required
-                      name="phone"
-                      value={formData.phone}
+                      name="fullName"
+                      value={formData.fullName}
                       onChange={handleInputChange}
-                      placeholder="+1 (561) 668-7361"
-                      className="w-full bg-[#13110e] border border-gold-300/15 text-xs text-gold-100 rounded p-3 focus:outline-none focus:border-gold-400"
-                    />
-                  </div>
-
-                  {/* Email input */}
-                  <div>
-                    <label className="block text-[10px] font-mono tracking-wider uppercase text-zinc-400 mb-1.5">
-                      Email address *
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="client@secret.com"
-                      className="w-full bg-[#13110e] border border-gold-300/15 text-xs text-gold-100 rounded p-3 focus:outline-none focus:border-gold-400"
+                      placeholder="E.g., Jonathan Santos"
+                      className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-4 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
                     />
                   </div>
                 </div>
 
-                {/* Shipping address input */}
-                <div>
-                  <label className="block text-[10px] font-mono tracking-wider uppercase text-zinc-400 mb-1.5">
-                    Delivery Address *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    placeholder="E.g., 200 luxury boulevard suite 5"
-                    className="w-full bg-[#13110e] border border-gold-300/15 text-xs text-gold-100 rounded p-3 focus:outline-none focus:border-gold-400"
-                  />
+                {/* Email & Phone side-by-side */}
+                <div className="grid grid-cols-2 gap-3.5">
+                  {/* Phone */}
+                  <div className="space-y-1">
+                    <label className="block text-[9px] font-mono tracking-widest uppercase text-zinc-400 font-medium">
+                      PHONE NUMBER *
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                        <Phone className="w-4 h-4 text-[#dbbf64]/65" />
+                      </div>
+                      <input
+                        type="tel"
+                        required
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="(561) 668-7361"
+                        className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-3 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div className="space-y-1">
+                    <label className="block text-[9px] font-mono tracking-widest uppercase text-zinc-400 font-medium">
+                      EMAIL ADDRESS *
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                        <Mail className="w-4 h-4 text-[#dbbf64]/65" />
+                      </div>
+                      <input
+                        type="email"
+                        required
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="client@secret.com"
+                        className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-3 py-3 placeholder:text-zinc-655 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              </div>
+            </div>
+
+            {/* SECTION 2: DELIVERY ADDRESS */}
+            <div className="space-y-4 pt-2">
+              <div className="flex items-center gap-3 select-none">
+                <div className="w-8 h-8 rounded-full border border-[#dbbf64]/25 flex items-center justify-center text-[#dbbf64] bg-[#dbbf64]/5 flex-shrink-0">
+                  <MapPin className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="font-serif text-[11px] sm:text-xs font-semibold text-[#dbbf64] tracking-[0.15em] uppercase">
+                    DELIVERY ADDRESS
+                  </h4>
+                  <p className="text-[10px] text-zinc-400">
+                    Where should we deliver your order?
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {/* Street address */}
+                <div className="space-y-1">
+                  <label className="block text-[9px] font-mono tracking-widest uppercase text-zinc-400 font-medium">
+                    STREET ADDRESS *
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                      <MapPin className="w-4 h-4 text-[#dbbf64]/65" />
+                    </div>
+                    <input
+                      type="text"
+                      required
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      placeholder="E.g., 200 Luxury Boulevard Suite 5"
+                      className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-4 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                    />
+                  </div>
+                </div>
+
+                {/* City & State drop side-by-side */}
+                <div className="grid grid-cols-2 gap-3.5">
                   {/* City */}
-                  <div>
-                    <label className="block text-[10px] font-mono tracking-wider uppercase text-zinc-400 mb-1.5">
-                      City
+                  <div className="space-y-1">
+                    <label className="block text-[9px] font-mono tracking-widest uppercase text-zinc-400 font-medium">
+                      CITY *
                     </label>
-                    <input
-                      type="text"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      placeholder="Palm Beach"
-                      className="w-full bg-[#13110e] border border-gold-300/15 text-xs text-gold-100 rounded p-3 focus:outline-none focus:border-gold-400"
-                    />
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                        <Building className="w-4 h-4 text-[#dbbf64]/65" />
+                      </div>
+                      <input
+                        type="text"
+                        required
+                        name="city"
+                        value={formData.city}
+                        onChange={handleInputChange}
+                        placeholder="Palm Beach"
+                        className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-3 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                      />
+                    </div>
                   </div>
 
-                  {/* State */}
-                  <div>
-                    <label className="block text-[10px] font-mono tracking-wider uppercase text-zinc-400 mb-1.5">
-                      State / Prov
+                  {/* State Select option exactly like reference image */}
+                  <div className="space-y-1">
+                    <label className="block text-[9px] font-mono tracking-widest uppercase text-zinc-400 font-medium">
+                      STATE *
                     </label>
-                    <input
-                      type="text"
-                      name="state"
-                      value={formData.state}
-                      onChange={handleInputChange}
-                      placeholder="FL"
-                      className="w-full bg-[#13110e] border border-gold-300/15 text-xs text-gold-100 rounded p-3 focus:outline-none focus:border-gold-400"
-                    />
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                        <MapPin className="w-4 h-4 text-[#dbbf64]/65" />
+                      </div>
+                      <select
+                        required
+                        name="state"
+                        value={formData.state}
+                        onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
+                        className="w-full bg-[#050b14]/65 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-10 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all appearance-none cursor-pointer font-sans"
+                      >
+                        <option value="" disabled className="bg-[#030712] text-zinc-500">Select state</option>
+                        <option value="FL" className="bg-[#030712] text-zinc-200">FL - Florida</option>
+                        <option value="NY" className="bg-[#030712] text-zinc-200">NY - New York</option>
+                        <option value="CA" className="bg-[#030712] text-zinc-200">CA - California</option>
+                        <option value="TX" className="bg-[#030712] text-zinc-200">TX - Texas</option>
+                        <option value="SP" className="bg-[#030712] text-zinc-200">SP - São Paulo</option>
+                        <option value="RJ" className="bg-[#030712] text-zinc-200">RJ - Rio de Janeiro</option>
+                        <option value="MG" className="bg-[#030712] text-zinc-200">MG - Minas Gerais</option>
+                        <option value="PR" className="bg-[#030712] text-zinc-200">PR - Paraná</option>
+                        <option value="DF" className="bg-[#030712] text-zinc-200">DF - Distrito Federal</option>
+                      </select>
+                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+                        <ChevronRight className="w-4 h-4 text-[#dbbf64]/65 rotate-90" />
+                      </div>
+                    </div>
                   </div>
+                </div>
 
-                  {/* Zip Code */}
-                  <div>
-                    <label className="block text-[10px] font-mono tracking-wider uppercase text-zinc-400 mb-1.5">
-                      Zip / Postal
-                    </label>
+                {/* Zip or Postal code */}
+                <div className="space-y-1">
+                  <label className="block text-[9px] font-mono tracking-widest uppercase text-zinc-400 font-medium">
+                    ZIP / POSTAL CODE *
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none font-medium">
+                      <Mail className="w-4 h-4 text-[#dbbf64]/65" />
+                    </div>
                     <input
                       type="text"
+                      required
                       name="zip"
                       value={formData.zip}
                       onChange={handleInputChange}
                       placeholder="33401"
-                      className="w-full bg-[#13110e] border border-gold-300/15 text-xs text-gold-100 rounded p-3 focus:outline-none focus:border-gold-400"
+                      className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-4 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
                     />
                   </div>
                 </div>
 
-                <div className="pt-2 text-[10px] text-zinc-500 italic">
-                  * All orders are structured securely and routed immediately to the concierge team. Payment methods are processed dynamically on WhatsApp.
-                </div>
               </div>
             </div>
 
-            {/* Right Column: Order summary and pricing breakdown */}
-            <div className="p-6 sm:p-8 flex flex-col justify-between bg-[#0b0a08] select-none">
-              
-              <div className="space-y-6">
-                <div className="space-y-1">
-                  <h4 className="text-[10px] font-mono tracking-widest text-gold-400 uppercase font-semibold">
-                    Step 2
-                  </h4>
-                  <p className="font-serif text-lg text-gold-100">Review Itemized summary</p>
+            {/* BUTTON ROW: THE IMPACTFUL GLORIOUS METALLIC GOLD BUTTON */}
+            <div className="pt-3.5">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-[#ebdcb0] via-[#dbbf64] to-[#7f6111] hover:brightness-105 active:scale-[0.99] shadow-[0_4px_25px_rgba(219,191,100,0.18)] text-zinc-950 font-serif font-bold tracking-[0.15em] text-xs uppercase rounded-lg py-3.5 px-5 flex items-center justify-between transition-all cursor-pointer disabled:opacity-50"
+              >
+                <Lock className="w-4 h-4 text-zinc-950 flex-shrink-0" />
+                <span className="flex-1 text-center font-bold tracking-[0.14em] text-[11px] sm:text-xs text-zinc-950">
+                  {loading ? "PROCESSING SECURE ORDER..." : "CONTINUE TO PAYMENT"}
+                </span>
+                <ChevronRight className="w-4 h-4 text-zinc-950 flex-shrink-0" />
+              </button>
+
+              <div className="flex items-center justify-center gap-1.5 text-[9.5px] text-zinc-400 mt-3 select-none text-center max-w-sm mx-auto">
+                <ShieldCheck className="w-4 h-4 text-[#dbbf64] flex-shrink-0" />
+                <span>Your order is securely processed and prepared for immediate dispatch.</span>
+              </div>
+            </div>
+
+            {/* BOTTOM SECURE BADGES PANEL */}
+            <div className="border-t border-[#dbbf64]/10 pt-4.5 mt-3 grid grid-cols-3 gap-2.5 text-center">
+              <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-full border border-[#dbbf64]/20 flex items-center justify-center text-[#dbbf64] mb-1 bg-[#dbbf64]/5 shadow-[0_0_8px_rgba(219,191,100,0.05)]">
+                  <ShieldCheck className="w-4 h-4" />
                 </div>
-
-                {/* List items in checkout */}
-                <div className="space-y-3.5 divide-y divide-gold-300/5 max-h-[25vh] overflow-y-auto pr-1">
-                  {cart.map((item) => (
-                    <div key={item.product.id} className="flex gap-3 pt-3 first:pt-0">
-                      <div className="w-10 h-12 rounded bg-neutral-900 border border-gold-300/10 overflow-hidden flex-shrink-0">
-                        <img 
-                          src={item.product.imageUrl} 
-                          alt={item.product.name} 
-                          className="w-full h-full object-cover"
-                          referrerPolicy="no-referrer"
-                        />
-                      </div>
-                      <div className="flex-1 text-xs">
-                        <h5 className="font-serif text-zinc-300 truncate font-medium">{item.product.name}</h5>
-                        <div className="flex justify-between text-zinc-500 font-mono text-[9px] uppercase mt-1">
-                          <span>{item.quantity} x ${item.product.price.toFixed(2)}</span>
-                          <span className="text-gold-200">${(item.quantity * item.product.price).toFixed(2)}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Math breakdown */}
-                <div className="border-t border-gold-300/10 pt-4 space-y-2.5 text-xs font-sans">
-                  <div className="flex justify-between text-zinc-400">
-                    <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
-                  </div>
-
-                  {appliedCoupon && (
-                    <div className="flex justify-between text-gold-400 font-medium">
-                      <span>Promo Coupon Applied ({appliedCoupon.code})</span>
-                      <span>-${discount.toFixed(2)}</span>
-                    </div>
-                  )}
-
-                  {/* Mandated separate 7% sales tax */}
-                  <div className="flex justify-between text-zinc-400">
-                    <span>Estimated Sales Tax (7%)</span>
-                    <span>${tax.toFixed(2)}</span>
-                  </div>
-
-                  <div className="border-t border-gold-300/15 pt-3.5 flex justify-between text-lg text-gold-300 font-display font-semibold select-none">
-                    <span>Final Tally</span>
-                    <span>${total.toFixed(2)}</span>
-                  </div>
-                </div>
-
-                {/* Routing preference channel selector */}
-                <div className="space-y-2 mt-4 pt-4 border-t border-gold-300/10">
-                  <span className="block text-[9px] font-mono tracking-wider uppercase text-gold-400 font-semibold select-none">
-                    Preferência de Envio / Support Route
-                  </span>
-                  <div className="grid grid-cols-2 gap-3 mt-1.5 font-sans">
-                    <button
-                      type="button"
-                      onClick={() => setRoutingChannel('whatsapp')}
-                      className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg border text-center transition-all cursor-pointer ${
-                        routingChannel === 'whatsapp'
-                          ? 'bg-emerald-500/10 border-emerald-505 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
-                          : 'bg-[#12110e] border-gold-300/10 text-zinc-400 hover:border-gold-300/30'
-                      }`}
-                    >
-                      <span className="text-[12px] font-bold uppercase tracking-wider flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-ping" />
-                        WhatsApp
-                      </span>
-                      <span className="text-[8px] font-mono text-zinc-500 mt-0.5">wa.me/message</span>
-                    </button>
-                    
-                    <button
-                      type="button"
-                      onClick={() => setRoutingChannel('sms')}
-                      className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg border text-center transition-all cursor-pointer ${
-                        routingChannel === 'sms'
-                          ? 'bg-amber-500/10 border-amber-505 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.15)]'
-                          : 'bg-[#12110e] border-gold-300/10 text-zinc-400 hover:border-gold-300/30'
-                      }`}
-                    >
-                      <span className="text-[12px] font-bold uppercase tracking-wider flex items-center gap-1.5">
-                        SMS / Texto
-                      </span>
-                      <span className="text-[8px] font-mono text-zinc-500 mt-0.5">+1 (561) 668-7361</span>
-                    </button>
-                  </div>
-                </div>
+                <span className="block text-[8px] font-bold tracking-wider text-[#dbbf64] uppercase leading-tight font-serif">SECURE CHECKOUT</span>
+                <span className="text-[7.5px] text-zinc-500 mt-0.5 leading-none">256-bit SSL encrypted</span>
               </div>
 
-              {/* Action submit */}
-              <div className="pt-6 border-t border-gold-300/10 mt-6 lg:mt-0">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`w-full flex items-center justify-center gap-2.5 py-3 px-4 text-white tracking-widest text-xs uppercase font-extrabold rounded transition-all cursor-pointer disabled:opacity-40 hover:brightness-110 active:scale-[0.98] ${
-                    routingChannel === 'whatsapp'
-                      ? 'bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700 shadow-[0_4px_25px_rgba(16,185,129,0.25)]'
-                      : 'bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 shadow-[0_4px_25px_rgba(245,158,11,0.25)]'
-                  }`}
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  {loading 
-                    ? 'Processando...' 
-                    : routingChannel === 'whatsapp' 
-                      ? 'Finalizar e Enviar via WhatsApp' 
-                      : 'Finalizar e Enviar via SMS (Texto)'
-                  }
-                </button>
+              <div className="flex flex-col items-center border-x border-[#dbbf64]/10 px-1">
+                <div className="w-8 h-8 rounded-full border border-[#dbbf64]/20 flex items-center justify-center text-[#dbbf64] mb-1 bg-[#dbbf64]/5 shadow-[0_0_8px_rgba(219,191,100,0.05)]">
+                  <Truck className="w-4 h-4" />
+                </div>
+                <span className="block text-[8px] font-bold tracking-wider text-[#dbbf64] uppercase leading-tight font-serif">FAST SHIPPING</span>
+                <span className="text-[7.5px] text-zinc-500 mt-0.5 leading-none">Quick & reliable delivery</span>
               </div>
 
+              <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-full border border-[#dbbf64]/20 flex items-center justify-center text-[#dbbf64] mb-1 bg-[#dbbf64]/5 shadow-[0_0_8px_rgba(219,191,100,0.05)]">
+                  <Award className="w-4 h-4" />
+                </div>
+                <span className="block text-[8px] font-bold tracking-wider text-[#dbbf64] uppercase leading-tight font-serif">AUTHENTIC PRODUCTS</span>
+                <span className="text-[7.5px] text-zinc-500 mt-0.5 leading-none">100% quality guaranteed</span>
+              </div>
             </div>
 
           </form>

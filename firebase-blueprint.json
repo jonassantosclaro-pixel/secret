@@ -84,6 +84,19 @@
         "email": { "type": "string" }
       },
       "required": ["uid", "email"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Store olfactory or product lines category",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "slug"]
     }
   },
   "firestore": {
@@ -110,6 +123,10 @@
     "/admins/{uid}": {
       "schema": "Admin",
       "description": "Admin configuration lookup list"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Store categories navigation bar list"
     }
   }
 }

@@ -196,6 +196,35 @@ export async function seedInitialData() {
       console.log("All brand registrations match official specifications.");
     }
 
+    // Dynamic categories seeding
+    try {
+      const categoriesCollectionRef = collection(db, 'categories');
+      const cSnap = await getDocs(categoriesCollectionRef);
+      if (cSnap.empty) {
+        console.log("Seeding default categories...");
+        const defaultCats = [
+          { name: "MASCULINE", slug: "masculine", order: 1 },
+          { name: "FEMININE", slug: "feminine", order: 2 },
+          { name: "UNISEX", slug: "unisex", order: 3 },
+          { name: "NICHE", slug: "niche", order: 4 }
+        ];
+        const catBatch = writeBatch(db);
+        defaultCats.forEach(cat => {
+          const catRef = doc(db, 'categories', cat.slug);
+          catBatch.set(catRef, {
+            name: cat.name,
+            slug: cat.slug,
+            order: cat.order,
+            createdAt: Timestamp.now()
+          });
+        });
+        await catBatch.commit();
+        console.log("Default categories seeded successfully!");
+      }
+    } catch (err) {
+      console.warn("Could not seed categories automatically:", err);
+    }
+
     // 2. Check if products collection needs primary seed
     const productsCollectionRef = collection(db, 'products');
     const pSnap = await getDocs(productsCollectionRef);

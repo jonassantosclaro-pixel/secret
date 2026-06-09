@@ -54,7 +54,7 @@ export default function AuthModal({ onClose, onAuthSuccess }: AuthModalProps) {
           fullName: fullName,
           email: email.trim().toLowerCase(),
           phone: phone,
-          isAdmin: email.trim().toLowerCase() === "secret@x.com", // Bootstrap secret admin
+          isAdmin: email.trim().toLowerCase() === "secret@x.com" || email.trim().toLowerCase() === "jonassantosclaro@gmail.com", // Bootstrap admin check
           createdAt: new Date()
         };
 
@@ -130,9 +130,9 @@ export default function AuthModal({ onClose, onAuthSuccess }: AuthModalProps) {
         {/* Branding header */}
         <div className="text-center space-y-2">
           <img 
-            src="https://i.postimg.cc/6qJnp9Ld/Chat-GPT-Image-6-06-2026-12-02-47.png" 
+            src="https://i.postimg.cc/ht7MNG1H/Chat-GPT-Image-9-06-2026-10-55-29.png" 
             alt="Secret Fragrance Logo" 
-            className="w-14 h-14 mx-auto object-contain rounded-full border border-gold-300/10 p-0.5"
+            className="w-16 h-16 mx-auto object-contain rounded-full border border-cyan-500/20 p-0.5 filter drop-shadow-[0_0_12px_rgba(6,182,212,0.6)]"
             referrerPolicy="no-referrer"
           />
           <div>
