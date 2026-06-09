@@ -16,20 +16,20 @@ export default function SplashIntro({ onComplete }: SplashIntroProps) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Increment progress bar to match the exact 6 seconds
+    // Increment progress bar to match the exact 2 seconds
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
           return 100;
         }
-        return prev + 1.67; // approx (100 / 60 intervals)
+        return prev + 5; // 100% in 20 intervals (2000ms)
       });
     }, 100);
 
     const timeout = setTimeout(() => {
       onComplete();
-    }, 6000);
+    }, 2000);
 
     return () => {
       clearInterval(interval);

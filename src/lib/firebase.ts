@@ -60,7 +60,7 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
     path
   };
   console.error('Firestore Error details: ', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+  // Print a clear console warning but do NOT throw/crash the entire React application thread
 }
 
 // Validation to verify connection to Firestore on initialization
