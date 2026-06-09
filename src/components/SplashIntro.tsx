@@ -92,13 +92,13 @@ export default function SplashIntro({ onComplete }: SplashIntroProps) {
       {!skip && (
         <motion.div
           id="splash-container"
-          className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#030201] overflow-hidden select-none"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-between luxe-wallpaper overflow-hidden select-none"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
         >
           {/* 1. LAYER: Deep cosmic ambient textures & spotlight ray */}
-          <div className="absolute inset-0 bg-radial-gradient from-neutral-950 via-[#030201] to-[#010100] pointer-events-none" />
+          <div className="absolute inset-0 bg-black/20 pointer-events-none" />
           
           {/* Top downward spotlight cone - amplified premium electric blue and cyan rays */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[420px] sm:w-[800px] h-[75vh] bg-gradient-to-b from-blue-600/25 via-cyan-800/15 to-transparent rounded-b-full blur-[110px] pointer-events-none z-0" />
