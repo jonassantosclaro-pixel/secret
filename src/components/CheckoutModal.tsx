@@ -56,6 +56,7 @@ export default function CheckoutModal({
   const [orderId, setOrderId] = useState('');
   const [placed, setPlaced] = useState(false);
   const [routingChannel, setRoutingChannel] = useState<'whatsapp' | 'sms'>('whatsapp');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (userProfile) {
@@ -91,8 +92,10 @@ export default function CheckoutModal({
 
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.email || !formData.phone || !formData.address) {
-      alert('Please fill out all mandatory customer fields.');
+    setError('');
+    
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.state || !formData.zip) {
+      setError('Please fill out all mandatory customer fields (name, phone, email, address, city, state, zip).');
       return;
     }
 
@@ -133,9 +136,9 @@ export default function CheckoutModal({
 
       setPlaced(true);
       onClearCart();
-    } catch (error) {
-      console.error("Order submission failure:", error);
-      alert("Error submitting order to database. Please check console.");
+    } catch (err: any) {
+      console.error("Order submission failure:", err);
+      setError(err?.message || "Error submitting order to database. Please check your network and try again.");
     } finally {
       setLoading(false);
     }
@@ -291,6 +294,12 @@ export default function CheckoutModal({
           /* Active Checkout form screen */
           <form onSubmit={handleCheckoutSubmit} className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6 bg-[#030712]">
             
+            {error && (
+              <div id="checkout-error-banner" className="p-3.5 bg-red-500/10 border border-red-500/25 text-red-400 text-xs rounded-lg font-sans italic text-center select-none">
+                {error}
+              </div>
+            )}
+
             {/* SECTION 1: CONTACT INFORMATION */}
             <div className="space-y-4">
               <div className="flex items-center gap-3 select-none">
@@ -324,13 +333,13 @@ export default function CheckoutModal({
                       value={formData.fullName}
                       onChange={handleInputChange}
                       placeholder="E.g., Jonathan Santos"
-                      className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-4 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                      className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-4 py-3 placeholder-zinc-500 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
                     />
                   </div>
                 </div>
 
-                {/* Email & Phone side-by-side */}
-                <div className="grid grid-cols-2 gap-3.5">
+                {/* Email & Phone grid: stacked on mobile, row on tablet/desktop */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   {/* Phone */}
                   <div className="space-y-1">
                     <label className="block text-[9px] font-mono tracking-widest uppercase text-zinc-400 font-medium">
@@ -347,7 +356,7 @@ export default function CheckoutModal({
                         value={formData.phone}
                         onChange={handleInputChange}
                         placeholder="(561) 668-7361"
-                        className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-3 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                        className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-3 py-3 placeholder-zinc-500 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
                       />
                     </div>
                   </div>
@@ -368,7 +377,7 @@ export default function CheckoutModal({
                         value={formData.email}
                         onChange={handleInputChange}
                         placeholder="client@secret.com"
-                        className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-3 py-3 placeholder:text-zinc-655 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                        className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-3 py-3 placeholder-zinc-500 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
                       />
                     </div>
                   </div>
@@ -410,13 +419,13 @@ export default function CheckoutModal({
                       value={formData.address}
                       onChange={handleInputChange}
                       placeholder="E.g., 200 Luxury Boulevard Suite 5"
-                      className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-4 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                      className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-4 py-3 placeholder-zinc-500 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
                     />
                   </div>
                 </div>
 
-                {/* City & State drop side-by-side */}
-                <div className="grid grid-cols-2 gap-3.5">
+                {/* City & State: stacked on mobile, row on tablet/desktop */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   {/* City */}
                   <div className="space-y-1">
                     <label className="block text-[9px] font-mono tracking-widest uppercase text-zinc-400 font-medium">
@@ -433,7 +442,7 @@ export default function CheckoutModal({
                         value={formData.city}
                         onChange={handleInputChange}
                         placeholder="Palm Beach"
-                        className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-3 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                        className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-3 py-3 placeholder-zinc-500 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
                       />
                     </div>
                   </div>
@@ -452,7 +461,7 @@ export default function CheckoutModal({
                         name="state"
                         value={formData.state}
                         onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
-                        className="w-full bg-[#050b14]/65 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-10 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all appearance-none cursor-pointer font-sans"
+                        className="w-full bg-[#050b14]/65 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-10 py-3 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all appearance-none cursor-pointer font-sans"
                       >
                         <option value="" disabled className="bg-[#030712] text-zinc-500">Select state</option>
                         <option value="FL" className="bg-[#030712] text-zinc-200">FL - Florida</option>
@@ -488,7 +497,7 @@ export default function CheckoutModal({
                       value={formData.zip}
                       onChange={handleInputChange}
                       placeholder="33401"
-                      className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-4 py-3 placeholder:text-zinc-650 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
+                      className="w-full bg-[#050b14]/60 border border-[#dbbf64]/15 rounded-lg text-xs text-[#ebdcb0] pl-10 pr-4 py-3 placeholder-zinc-500 focus:outline-none focus:border-[#dbbf64] focus:ring-1 focus:ring-[#dbbf64]/30 transition-all font-sans"
                     />
                   </div>
                 </div>

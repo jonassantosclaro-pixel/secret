@@ -50,19 +50,19 @@ export default function Header({
         <div className="flex items-center justify-between h-20 gap-4">
           
           {/* Brand Logo & Name */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => { setCurrentBrand(""); setSelectedCategory("all"); setSearchQuery(""); }}>
-            <div id="header-logo-container" className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full border border-gold-300/30 p-0.5 flex items-center justify-center bg-[#070605] overflow-hidden">
+          <div className="flex items-center gap-3.5 cursor-pointer" onClick={() => { setCurrentBrand(""); setSelectedCategory("all"); setSearchQuery(""); }}>
+            <div id="header-logo-container" className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-[#dbbf64]/35 p-0.5 flex items-center justify-center bg-[#070605] overflow-hidden shadow-[0_0_15px_rgba(219,191,100,0.15)]">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent -translate-x-full animate-shimmer" />
               <img 
                 src="https://i.postimg.cc/ht7MNG1H/Chat-GPT-Image-9-06-2026-10-55-29.png" 
                 alt="Secret Fragrance Logo" 
-                className="w-full h-full object-contain rounded-full p-0.5 filter drop-shadow-[0_0_12px_rgba(6,182,212,0.8)] drop-shadow-[0_0_4px_rgba(219,191,100,0.5)] transition-transform duration-500 hover:scale-110"
+                className="w-full h-full object-contain rounded-full p-0.5 filter drop-shadow-[0_0_12px_rgba(219,191,100,0.6)] transition-transform duration-500 hover:scale-110"
                 referrerPolicy="no-referrer"
               />
             </div>
             <div className="hidden sm:block">
-              <h1 className="font-display text-sm tracking-[0.2em] text-shimmer-gold font-extrabold select-none">SECRET</h1>
-              <p className="font-display text-[9px] tracking-[0.3em] text-gold-200 select-none">FRAGRANCE</p>
+              <h1 className="font-display text-sm tracking-[0.22em] text-shimmer-gold font-extrabold select-none">SECRET</h1>
+              <p className="font-display text-[9.5px] tracking-[0.32em] text-gold-200 select-none">FRAGRANCE</p>
             </div>
           </div>
 

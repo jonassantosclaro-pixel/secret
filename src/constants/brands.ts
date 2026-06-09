@@ -9,71 +9,76 @@ export const OFFICIAL_BRANDS: Brand[] = [
   {
     id: "afnan",
     name: "AFNAN",
-    logoUrl: "https://i.postimg.cc/4NL5Fcky/719585122-25234023369628787-8493122933287138237-n.jpg"
+    logoUrl: "https://i.postimg.cc/65pVRfbN/Chat-GPT-Image-9-de-jun-de-2026-11-47-03.png"
   },
   {
     id: "al-haramain",
     name: "AL HARAMAIN",
-    logoUrl: "https://i.postimg.cc/4NL5FckR/715330425-1216220170531273-4124568533477539210-n.jpg"
+    logoUrl: "https://i.postimg.cc/xT1GH3pr/Chat-GPT-Image-9-de-jun-de-2026-11-47-52.png"
   },
   {
     id: "arabiyat",
     name: "ARABIYAT",
-    logoUrl: "https://i.postimg.cc/J46qdXV7/686982884-1917623518897034-1483167690589864140-n.jpg"
+    logoUrl: "https://i.postimg.cc/RVZ1fLsy/Chat-GPT-Image-9-de-jun-de-2026-11-49-33.png"
   },
   {
     id: "armaf",
     name: "ARMAF",
-    logoUrl: "https://i.postimg.cc/hPyr3mWW/715949867-2077413676516485-6394505418488008740-n.jpg"
+    logoUrl: "https://i.postimg.cc/zDjSVcjK/Chat-GPT-Image-9-de-jun-de-2026-11-51-20.png"
+  },
+  {
+    id: "design-perfumes",
+    name: "DESIGN PERFUMES",
+    logoUrl: "https://i.postimg.cc/KYMDjcq9/Chat-GPT-Image-9-de-jun-de-2026-11-53-00.png"
   },
   {
     id: "french-avenue",
     name: "FRENCH AVENUE",
-    logoUrl: "https://i.postimg.cc/dtt6BBXY/720190677-1486171363311046-5642323959952306220-n.jpg"
+    logoUrl: "https://i.postimg.cc/bwMRqSTj/Chat-GPT-Image-9-de-jun-de-2026-11-54-38.png"
   },
   {
     id: "khadlaj",
     name: "KHADLAJ",
-    logoUrl: "https://i.postimg.cc/hPPsrrwg/718263947-1038212158634548-9022755302739839139-n.jpg"
+    logoUrl: "https://i.postimg.cc/BQSpp0bn/Chat-GPT-Image-9-de-jun-de-2026-11-56-17.png"
   },
   {
     id: "lattafa",
     name: "LATTAFA",
-    logoUrl: "https://i.postimg.cc/9FFbppS2/715440793-994229700129455-4542569324999882104-n.jpg"
+    logoUrl: "https://i.postimg.cc/ZKbHHSnY/Chat-GPT-Image-9-06-2026-11-57-03.png"
   },
   {
     id: "maison-alhambra",
     name: "MAISON ALHAMBRA",
-    logoUrl: "https://i.postimg.cc/kXXsccZd/717297092-1985400405435794-7615794380538401243-n.jpg"
+    logoUrl: "https://i.postimg.cc/7YH99khy/Chat-GPT-Image-9-06-2026-11-58-51.png"
   },
   {
     id: "maison-asrar",
     name: "MAISON ASRAR",
-    logoUrl: "https://i.postimg.cc/155BHHdW/713483169-2221528985355059-1632823455634226866-n.jpg"
+    logoUrl: "https://i.postimg.cc/jqQvy5sW/Chat-GPT-Image-9-06-2026-12-00-30.png"
   },
   {
     id: "orientica",
     name: "ORIENTICA",
-    logoUrl: "https://i.postimg.cc/m2Xw69fG/715549301-2340990246426253-6781854878618421059-n.jpg"
+    logoUrl: "https://i.postimg.cc/437BcQdY/Chat-GPT-Image-9-06-2026-12-02-20.png"
   },
   {
     id: "paris-corner",
     name: "PARIS CORNER",
-    logoUrl: "https://i.postimg.cc/3JSBbG5x/717167867-2102098400688818-3960122985372321010-n.jpg"
+    logoUrl: "https://i.postimg.cc/N09pXkM9/Chat-GPT-Image-9-06-2026-12-04-46.png"
   },
   {
     id: "rasasi",
     name: "RASASI",
-    logoUrl: "https://i.postimg.cc/yYQPrR4Y/715440793-1666193464686276-8413316194949973691-n.jpg"
+    logoUrl: "https://i.postimg.cc/nLj0mGzL/Chat-GPT-Image-9-06-2026-12-07-03.png"
   },
   {
     id: "rayhaan",
     name: "RAYHAAN",
-    logoUrl: "https://i.postimg.cc/vZ4zRmbB/717595650-1331681045143596-7358712217364963276-n.jpg"
+    logoUrl: "https://i.postimg.cc/LsYNP3X6/Chat-GPT-Image-9-06-2026-12-08-45.png"
   },
   {
     id: "riffs",
     name: "RIFFS",
-    logoUrl: "https://i.postimg.cc/Pr34FDsG/721041085-1666416967925741-4880069428149580672-n.jpg"
+    logoUrl: "https://i.postimg.cc/ZYrsjHL8/Chat-GPT-Image-9-06-2026-12-10-27.png"
   }
 ];

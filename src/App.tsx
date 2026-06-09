@@ -33,11 +33,11 @@ import { OFFICIAL_BRANDS } from './constants/brands';
 
 const renderBrandLogo = (b: Brand) => {
   return (
-    <div className="relative w-full h-[54px] flex items-center justify-center select-none p-1">
+    <div className="relative w-full h-[74px] flex items-center justify-center select-none p-1">
       <img 
         src={b.logoUrl} 
         alt={b.name} 
-        className="max-w-full max-h-full object-contain rounded-lg transition-all duration-300 group-hover:scale-105 drop-shadow-[0_2px_10px_rgba(219,191,100,0.12)]"
+        className="max-w-[130px] max-h-full object-contain rounded-lg transition-all duration-300 group-hover:scale-[1.08] drop-shadow-[0_4px_14px_rgba(219,191,100,0.22)] filter brightness-115 contrast-110"
         referrerPolicy="no-referrer"
         onError={(e) => {
           const target = e.target as HTMLImageElement;
@@ -436,8 +436,8 @@ export default function App() {
                       THE ROYAL SENSORY ACCORD
                     </span>
                     <h2 className="luxury-font text-4xl sm:text-5xl lg:text-6xl text-gold-50 font-bold tracking-wide leading-[1.15]">
-                      The Essence of <br />
-                      <span className="text-shimmer-gold">Arabian Luxury</span>
+                      The Secret Behind the <br />
+                      <span className="text-shimmer-gold">World of Fragrances</span>
                     </h2>
                     <p className="font-display text-[10px] sm:text-xs tracking-[0.25em] text-gold-300 mt-2 uppercase font-medium">
                       Secret Fragrance • Premium House
@@ -466,32 +466,36 @@ export default function App() {
                 {/* Right Visual Wireframe Column */}
                 <div className="lg:col-span-5 relative flex items-center justify-center py-8">
                   {/* Absolute Rotated Frames */}
-                  <div className="absolute w-56 h-72 sm:w-64 sm:h-80 border border-gold-500/25 -rotate-6 rounded-lg pointer-events-none transition-transform duration-500 hover:-rotate-12" />
-                  <div className="absolute w-56 h-72 sm:w-64 sm:h-80 border border-gold-500/25 rotate-6 rounded-lg pointer-events-none transition-transform duration-500 hover:rotate-12" />
+                  <div className="absolute w-64 h-88 sm:w-72 sm:h-[400px] border border-gold-500/20 -rotate-6 rounded-2xl pointer-events-none transition-transform duration-500 hover:-rotate-12" />
+                  <div className="absolute w-64 h-88 sm:w-72 sm:h-[400px] border border-gold-500/20 rotate-6 rounded-2xl pointer-events-none transition-transform duration-500 hover:rotate-12" />
                   
                   {/* Core display card */}
-                  <div className="w-56 h-72 sm:w-64 sm:h-80 bg-zinc-950/90 border border-gold-500/40 flex flex-col items-center justify-between p-5 shadow-2xl rounded-lg relative overflow-hidden group">
+                  <div className="w-64 h-88 sm:w-72 sm:h-[400px] bg-gradient-to-b from-[#07111e]/95 to-[#010408]/95 border border-[#dbbf64]/35 flex flex-col items-center justify-between p-6 shadow-[0_15px_45px_rgba(0,0,0,0.85)] rounded-2xl relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-tr from-gold-500/5 to-transparent pointer-events-none" />
                     
-                    <div className="w-full h-full border border-gold-500/10 flex flex-col items-center justify-between p-4 rounded">
+                    <div className="w-full h-full border border-[#dbbf64]/10 flex flex-col items-center justify-between p-5 rounded-xl">
                       
                       {/* Logo and floating aura */}
-                      <div className="w-full flex-1 flex items-center justify-center relative">
-                        <div className="w-24 h-24 rounded-full border border-gold-500/20 p-1 flex items-center justify-center bg-black/80 relative">
-                          <div className="absolute inset-x-0 bottom-0 top-0 bg-gold-500/5 rounded-full blur-lg pointer-events-none" />
+                      <div className="w-full flex-1 flex flex-col items-center justify-center relative pt-2">
+                        <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full border border-gold-500/15 p-1 flex items-center justify-center bg-black/40 relative shadow-[0_0_25px_rgba(219,191,100,0.15)]">
+                          <div className="absolute inset-0 bg-gold-500/5 rounded-full blur-xl pointer-events-none" />
                           <img 
                             src="https://i.postimg.cc/ht7MNG1H/Chat-GPT-Image-9-06-2026-10-55-29.png" 
                             alt="Secret Fragrance Seal" 
-                            className="w-full h-full object-contain p-1 rounded-full animate-float filter drop-shadow-[0_0_12px_rgba(6,182,212,0.8)]"
+                            className="w-[90%] h-[90%] object-contain rounded-full animate-float filter drop-shadow-[0_0_15px_rgba(219,191,100,0.4)]"
                             referrerPolicy="no-referrer"
                           />
                         </div>
                       </div>
 
                       {/* Traditional caption */}
-                      <div className="text-center select-none pt-3 border-t border-gold-500/15 w-full">
-                        <span className="text-[10px] uppercase tracking-[0.25em] text-shimmer-gold font-extrabold block">Secret Fragrance</span>
-                        <span className="text-[8px] text-zinc-500 uppercase tracking-widest block mt-0.5">La Maison de Luxe</span>
+                      <div className="text-center select-none w-full mt-4 flex flex-col items-center">
+                        <h4 className="font-serif text-2xl sm:text-3xl tracking-[0.16em] text-shimmer-gold font-bold uppercase">SECRET</h4>
+                        <span className="text-[10px] text-gold-300 font-mono tracking-[0.35em] uppercase block mt-1">— FRAGRANCE —</span>
+                        
+                        <div className="w-4/5 h-[1px] bg-gradient-to-r from-transparent via-[#dbbf64]/40 to-transparent my-4" />
+                        
+                        <span className="text-[8.5px] sm:text-[9.5px] text-gold-200/90 font-mono uppercase tracking-[0.25em] font-bold block">AUTHENTIC FRAGRANCES</span>
                       </div>
 
                     </div>

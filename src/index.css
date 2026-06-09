@@ -119,11 +119,7 @@ body {
 
 /* Background wallpaper with overlay */
 .luxe-wallpaper {
-  background-image: radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 0.3) 0%, rgba(5, 5, 5, 0.96) 100%), 
-    url('https://i.postimg.cc/ZnxBY65s/714670297-1487500499358209-5561141093356440737-n.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: radial-gradient(circle at 50% 50%, #15130f 0%, #050505 100%);
   background-color: #050505;
 }
 

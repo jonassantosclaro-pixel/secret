@@ -171,7 +171,7 @@ export default function AuthModal({ onClose, onAuthSuccess }: AuthModalProps) {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="E.g., Jonathan Santos"
-                    className="w-full bg-[#13110e] border border-gold-300/15 rounded py-2.5 pl-9 pr-3 text-xs text-gold-100 placeholder-zinc-650 focus:outline-none focus:border-gold-400 transition-all"
+                    className="w-full bg-[#13110e] border border-gold-300/15 rounded py-2.5 pl-9 pr-3 text-xs text-gold-100 placeholder-zinc-500 focus:outline-none focus:border-gold-400 transition-all"
                   />
                 </div>
               </div>
@@ -191,7 +191,7 @@ export default function AuthModal({ onClose, onAuthSuccess }: AuthModalProps) {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="E.g., +1 (561) 668-7361"
-                    className="w-full bg-[#13110e] border border-gold-300/15 rounded py-2.5 pl-9 pr-3 text-xs text-gold-100 placeholder-zinc-650 focus:outline-none focus:border-gold-400 transition-all"
+                    className="w-full bg-[#13110e] border border-gold-300/15 rounded py-2.5 pl-9 pr-3 text-xs text-gold-100 placeholder-zinc-500 focus:outline-none focus:border-gold-400 transition-all"
                   />
                 </div>
               </div>
@@ -213,7 +213,7 @@ export default function AuthModal({ onClose, onAuthSuccess }: AuthModalProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="client@secret.com"
-                className="w-full bg-[#13110e] border border-gold-300/15 rounded py-2.5 pl-9 pr-3 text-xs text-gold-100 placeholder-zinc-650 focus:outline-none focus:border-gold-400 transition-all"
+                className="w-full bg-[#13110e] border border-gold-300/15 rounded py-2.5 pl-9 pr-3 text-xs text-gold-100 placeholder-zinc-500 focus:outline-none focus:border-gold-400 transition-all"
               />
             </div>
           </div>
@@ -233,7 +233,7 @@ export default function AuthModal({ onClose, onAuthSuccess }: AuthModalProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••"
-                className="w-full bg-[#13110e] border border-gold-300/15 rounded py-2.5 pl-9 pr-3 text-xs text-gold-100 placeholder-zinc-650 focus:outline-none focus:border-gold-400 transition-all"
+                className="w-full bg-[#13110e] border border-gold-300/15 rounded py-2.5 pl-9 pr-3 text-xs text-gold-100 placeholder-zinc-500 focus:outline-none focus:border-gold-400 transition-all"
               />
             </div>
           </div>
