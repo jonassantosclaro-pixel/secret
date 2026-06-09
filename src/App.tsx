@@ -30,6 +30,7 @@ import {
 } from 'firebase/firestore';
 import { Product, Brand, CategoryObj, Coupon, Socials, CartItem, UserProfile, OperationType } from './types';
 import { OFFICIAL_BRANDS } from './constants/brands';
+import SEEDING_PRODUCTS from './constants/seedingData.json';
 
 const renderBrandLogo = (b: Brand) => {
   return (
@@ -59,9 +60,15 @@ export default function App() {
 
   // 2. Core Collections State
   const [products, setProducts] = useState<Product[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
   const [brands, setBrands] = useState<Brand[]>(OFFICIAL_BRANDS);
   const [coupons, setCoupons] = useState<Coupon[]>([]);
-  const [categories, setCategories] = useState<CategoryObj[]>([]);
+  const [categories, setCategories] = useState<CategoryObj[]>([
+    { id: 'masculine', slug: 'masculine', name: 'MASCULINE', order: 1 },
+    { id: 'feminine', slug: 'feminine', name: 'FEMININE', order: 2 },
+    { id: 'unisex', slug: 'unisex', name: 'UNISSEX', order: 3 },
+    { id: 'niche', slug: 'niche', name: 'DECANT', order: 4 },
+  ]);
   const [socials, setSocials] = useState<Socials>({
     whatsapp: "+1 (561) 668-7361",
     instagram: "https://instagram.com/secretfragranceloop",
@@ -155,7 +162,9 @@ export default function App() {
         prods.push({ id: doc.id, ...doc.data() } as Product);
       });
       setProducts(prods);
+      setLoadingProducts(false);
     }, (error) => {
+      setLoadingProducts(false);
       handleFirestoreError(error, OperationType.GET, 'products');
     });
 
@@ -186,7 +195,9 @@ export default function App() {
         }
         cats.push({ id: doc.id, ...data, name: catName } as CategoryObj);
       });
-      setCategories(cats);
+      if (cats.length > 0) {
+        setCategories(cats);
+      }
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'categories');
     });
@@ -625,7 +636,21 @@ export default function App() {
                 </div>
               )}
 
-              {filteredProducts.length === 0 ? (
+              {loadingProducts ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+                  {[...Array(8)].map((_, i) => (
+                    <div key={i} className="animate-pulse bg-[#0c0b08]/85 border border-gold-300/10 rounded-lg p-5 space-y-4 h-[420px] flex flex-col justify-between">
+                      <div className="bg-zinc-900/60 h-52 w-full rounded-md" />
+                      <div className="space-y-3">
+                        <div className="h-4 bg-zinc-800/60 w-2/3 rounded" />
+                        <div className="h-3 bg-zinc-800/40 w-1/2 rounded" />
+                        <div className="h-5 bg-zinc-800/50 w-1/3 rounded" />
+                      </div>
+                      <div className="h-9 bg-zinc-800/30 w-full rounded" />
+                    </div>
+                  ))}
+                </div>
+              ) : filteredProducts.length === 0 ? (
                 <div className="py-16 text-center space-y-4">
                   <p className="text-xs text-zinc-500 uppercase tracking-wider font-mono">No matching precious formulations found.</p>
                   <button 

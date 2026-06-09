@@ -1,0 +1,164 @@
+[
+  {
+    "name": "9pm",
+    "brand": "AFNAN",
+    "price": 10,
+    "description": "Eau de Parfum com notas doces, amadeiradas e vanila, lançamento popular com vibe noturna.",
+    "category": "unisex",
+    "imageUrl": "https://i.postimg.cc/fTFM9PGc/686982884-1705190440815906-733337619626056667-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Chaos Extrait",
+    "brand": "ARMAF",
+    "price": 10,
+    "description": "Fragrância intensa com notas vermelhas/frutadas e madeira.",
+    "category": "masculine",
+    "imageUrl": "https://i.postimg.cc/WbKskyBS/714998102-1548037386946893-2654742878665011145-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Pacific Pour Homme Aura",
+    "brand": "RAYHAAN",
+    "price": 10,
+    "description": "Eau de Parfum cítrico, fresco com menta, limão e notas aquáticas.",
+    "category": "masculine",
+    "imageUrl": "https://i.postimg.cc/zGg8Sj5X/715440742-1694313901900718-2216300939142043534-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Club de Nuit Woman",
+    "brand": "ARMAF",
+    "price": 10,
+    "description": "Fragrância feminina doce, frutada com pêssego, lichia e floral.",
+    "category": "feminine",
+    "imageUrl": "https://i.postimg.cc/c4jdnzpc/715789887-1695083948485441-7425783141996980499-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Fakhar Lattafa",
+    "brand": "LATTAFA",
+    "price": 10,
+    "description": "Eau de Parfum floral, doce e amadeirado com rosas e baunilha.",
+    "category": "unisex",
+    "imageUrl": "https://i.postimg.cc/XYC4c8WL/716249939-780163481757474-3937490552804261794-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Club de Nuit Precious I",
+    "brand": "ARMAF",
+    "price": 10,
+    "description": "Versão intensa e luxuosa da linha Club de Nuit.",
+    "category": "masculine",
+    "imageUrl": "https://i.postimg.cc/5NGfCrhY/716350010-931641206556231-3309641370898990720-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Hawas Elixir",
+    "brand": "RASASI",
+    "price": 10,
+    "description": "Fragrância doce, amadeirada e gourmand com baunilha e especiarias.",
+    "category": "masculine",
+    "imageUrl": "https://i.postimg.cc/kgbqFcCT/716529976-1517571343119805-1384789481373017877-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Rayhaan Gold",
+    "brand": "RAYHAAN",
+    "price": 10,
+    "description": "Fragrância oriental com baunilha, cítricos e notas amadeiradas.",
+    "category": "unisex",
+    "imageUrl": "https://i.postimg.cc/XYC4c8Wm/717495943-2087492208463615-6095574338594983698-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Club de Nuit Intense Man",
+    "brand": "ARMAF",
+    "price": 10,
+    "description": "Clássico amadeirado, cítrico e couro – um dos mais famosos da marca.",
+    "category": "masculine",
+    "imageUrl": "https://i.postimg.cc/vHjGVKJz/717495943-975127351813004-1161460290591886481-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Liquid Brun",
+    "brand": "FRENCH AVENUE",
+    "price": 10,
+    "description": "Fragrância amadeirada, especiada e quente.",
+    "category": "masculine",
+    "imageUrl": "https://i.postimg.cc/NfVQHn3D/718042738-26112970175045320-3764592483614187520-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Hawas For Her Éclat",
+    "brand": "RASASI",
+    "price": 10,
+    "description": "Versão feminina doce e frutada da linha Hawas.",
+    "category": "feminine",
+    "imageUrl": "https://i.postimg.cc/DwXndghY/718174074-28324040070517044-5730014845401731886-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Odyssey Mandarin Sky Elixir (Orange)",
+    "brand": "ARMAF",
+    "price": 10,
+    "description": "Fragrância cítrica, fresca e doce da linha Odyssey.",
+    "category": "unisex",
+    "imageUrl": "https://i.postimg.cc/nc5nDWyB/718576542-889095896786284-6909579052109243575-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Rayhaan Purple",
+    "brand": "RAYHAAN",
+    "price": 10,
+    "description": "Versão doce, frutada e gourmand (morango, baunilha, coco).",
+    "category": "unisex",
+    "imageUrl": "https://i.postimg.cc/RZH4QR9B/719135406-2039937773224467-714147355695276496-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Yara",
+    "brand": "LATTAFA",
+    "price": 10,
+    "description": "Fragrância feminina doce, gourmand com morango, baunilha e marshmallow.",
+    "category": "feminine",
+    "imageUrl": "https://i.postimg.cc/NjHB74t4/719159691-1331831154968982-411081865657655042-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Muharib (Maison Asrar)",
+    "brand": "MAISON ASRAR",
+    "price": 10,
+    "description": "Fragrância amadeirada, oriental e intensa com vibe de oud/couro.",
+    "category": "masculine",
+    "imageUrl": "https://i.postimg.cc/RV8vHYkw/719490110-1542279147451441-5121324793331117208-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Asad Elixir",
+    "brand": "LATTAFA",
+    "price": 10,
+    "description": "Fragrância intensa, doce e amadeirada com açafrão e baunilha.",
+    "category": "masculine",
+    "imageUrl": "https://i.postimg.cc/4NMX90Dj/719689409-3052856771587326-5073530420645344945-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Odyssey Mandarin Sky Elixir (Blue)",
+    "brand": "ARMAF",
+    "price": 10,
+    "description": "Versão laranja/azul da linha Odyssey (cítrica e doce).",
+    "category": "unisex",
+    "imageUrl": "https://i.postimg.cc/J4gRkFfJ/719890963-26923449604022734-1931812089540496897-n.jpg",
+    "stock": 10
+  },
+  {
+    "name": "Nocturno Pour Homme",
+    "brand": "RAYHAAN",
+    "price": 10,
+    "description": "Fragrância noturna, amadeirada, fresca e masculina.",
+    "category": "masculine",
+    "imageUrl": "https://i.postimg.cc/T3Dfq9xZ/720654592-26997447969882845-7605294323182373968-n.jpg",
+    "stock": 10
+  }
+]

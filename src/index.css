@@ -28,6 +28,7 @@
   --animate-shimmer: shimmer 2.5s infinite linear;
   --animate-float: float 6s ease-in-out infinite;
   --animate-glow: glow 2s infinite alternate;
+  --animate-spin-slow: spin 8s linear infinite;
 }
 
 @keyframes shimmer {

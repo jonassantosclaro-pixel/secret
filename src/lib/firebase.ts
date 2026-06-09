@@ -263,15 +263,35 @@ export async function seedInitialData() {
       console.warn("Could not seed categories automatically:", err);
     }
 
-    // 2. Check if products collection needs primary seed
+    // 2. Clear old database products if needed and seed the 18 accurate ones
     const productsCollectionRef = collection(db, 'products');
     const pSnap = await getDocs(productsCollectionRef);
-    if (!pSnap.empty) {
-      console.log("Products already seeded in database.");
+    let existingProducts: any[] = [];
+    pSnap.forEach(doc => {
+      existingProducts.push({ id: doc.id, ...doc.data() });
+    });
+
+    const needsReseed = existingProducts.length !== 18 || 
+                        existingProducts.some(p => !p.imageUrl || !p.imageUrl.includes("postimg.cc")) ||
+                        !existingProducts.some(p => p.name === "9pm");
+
+    if (!needsReseed) {
+      console.log("Database products are already fully up to date with 18 correct premium items.");
       return;
     }
 
-    console.log("Seeding remaining tables (Socials, Coupons, Products, Admin Bootstrap)...");
+    console.log("Removing outdated display items & starting primary seed of 18 premium perfumes...");
+    
+    // Purge old products
+    for (const p of existingProducts) {
+      try {
+        await deleteDoc(doc(db, 'products', p.id));
+      } catch (err) {
+        console.warn(`Could not delete old product: ${p.id}`, err);
+      }
+    }
+
+    console.log("Seeding remaining tables (Socials, Coupons, 18 Products, Admin Bootstrap)...");
     const mainBatch = writeBatch(db);
 
     // Seed Social Links
@@ -279,7 +299,7 @@ export async function seedInitialData() {
     mainBatch.set(socialsRef, {
       whatsapp: "+1 (561) 668-7361",
       instagram: "https://instagram.com/secretfragranceloop",
-      facebook: "https://facebook.com/secretfragrancestore",
+      facebook: "https://facebook.com/secretfragancestore",
       tiktok: "https://tiktok.com/@secretfragrance"
     });
 
@@ -299,93 +319,203 @@ export async function seedInitialData() {
       });
     });
 
-    // Seed Products
+    // Seed 18 accurate perfumes matching the exact links
     const productSeeds: Product[] = [
       {
-        name: "Khamrah",
-        brand: "Lattafa",
-        price: 65,
-        description: "A warm and incredibly sweet luxury gourmand with rich note additions of cinnamon, nutmeg, bergamot, dates, vanilla, praline, and heavy musk. Perfect cozy Projection.",
-        imageUrl: "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=600&q=80",
-        stock: 18,
+        name: "9pm",
+        brand: "AFNAN",
+        price: 50,
+        description: "Eau de Parfum com notas doces, amadeiradas e vanila, lançamento popular com vibe noturna.",
+        imageUrl: "https://i.postimg.cc/fTFM9PGc/686982884-1705190440815906-733337619626056667-n.jpg",
+        stock: 10,
+        category: "unisex",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Chaos Extrait",
+        brand: "ARMAF",
+        price: 50,
+        description: "Fragrância intensa com notas vermelhas/frutadas e madeira.",
+        imageUrl: "https://i.postimg.cc/WbKskyBS/714998102-1548037386946893-2654742878665011145-n.jpg",
+        stock: 10,
+        category: "masculine",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Pacific Pour Homme Aura",
+        brand: "RAYHAAN",
+        price: 50,
+        description: "Eau de Parfum cítrico, fresco com menta, limão e notas aquáticas.",
+        imageUrl: "https://i.postimg.cc/zGg8Sj5X/715440742-1694313901900718-2216300939142043534-n.jpg",
+        stock: 10,
+        category: "masculine",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Club de Nuit Woman",
+        brand: "ARMAF",
+        price: 50,
+        description: "Fragrância feminina doce, frutada com pêssego, lichia e floral.",
+        imageUrl: "https://i.postimg.cc/c4jdnzpc/715789887-1695083948485441-7425783141996980499-n.jpg",
+        stock: 10,
+        category: "feminine",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Fakhar Lattafa",
+        brand: "LATTAFA",
+        price: 50,
+        description: "Eau de Parfum floral, doce e amadeirado com rosas e baunilha.",
+        imageUrl: "https://i.postimg.cc/XYC4c8WL/716249939-780163481757474-3937490552804261794-n.jpg",
+        stock: 10,
+        category: "unisex",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Club de Nuit Precious I",
+        brand: "ARMAF",
+        price: 50,
+        description: "Versão intensa e luxuosa da linha Club de Nuit.",
+        imageUrl: "https://i.postimg.cc/5NGfCrhY/716350010-931641206556231-3309641370898990720-n.jpg",
+        stock: 10,
+        category: "masculine",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Hawas Elixir",
+        brand: "RASASI",
+        price: 50,
+        description: "Fragrância doce, amadeirada e gourmand com baunilha e especiarias.",
+        imageUrl: "https://i.postimg.cc/kgbqFcCT/716529976-1517571343119805-1384789481373017877-n.jpg",
+        stock: 10,
+        category: "masculine",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Rayhaan Gold",
+        brand: "RAYHAAN",
+        price: 50,
+        description: "Fragrância oriental com baunilha, cítricos e notas amadeiradas.",
+        imageUrl: "https://i.postimg.cc/XYC4c8Wm/717495943-2087492208463615-6095574338594983698-n.jpg",
+        stock: 10,
         category: "unisex",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
       },
       {
         name: "Club de Nuit Intense Man",
-        brand: "Armaf",
-        price: 55,
-        description: "An iconic rich Woody Spicy fragrance for men. Opening with citrusy crisp lemon, pineapple and blackcurrant, settling into beautiful ambergris, birch, and clean patchouli.",
-        imageUrl: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=600&q=80",
-        stock: 25,
+        brand: "ARMAF",
+        price: 50,
+        description: "Clássico amadeirado, cítrico e couro – um dos mais famosos da marca.",
+        imageUrl: "https://i.postimg.cc/vHjGVKJz/717495943-975127351813004-1161460290591886481-n.jpg",
+        stock: 10,
         category: "masculine",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
       },
       {
-        name: "Yara Rose",
-        brand: "Lattafa",
-        price: 45,
-        description: "A gorgeous, sweet, creamy masterpiece for women. Features gourmand notes of orchid, tropical fruits mixed with sweet tangerine, creamy milk, vanilla, and warm sandalwood.",
-        imageUrl: "https://images.unsplash.com/photo-1528740564265-99636c7224f8?auto=format&fit=crop&w=600&q=80",
-        stock: 22,
+        name: "Liquid Brun",
+        brand: "FRENCH AVENUE",
+        price: 50,
+        description: "Fragrância amadeirada, especiada e quente.",
+        imageUrl: "https://i.postimg.cc/NfVQHn3D/718042738-26112970175045320-3764592483614187520-n.jpg",
+        stock: 10,
+        category: "masculine",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Hawas For Her Éclat",
+        brand: "RASASI",
+        price: 50,
+        description: "Versão feminina doce e frutada da linha Hawas.",
+        imageUrl: "https://i.postimg.cc/DwXndghY/718174074-28324040070517044-5730014845401731886-n.jpg",
+        stock: 10,
         category: "feminine",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
       },
       {
-        name: "Royal Amber",
-        brand: "Orientica",
-        price: 95,
-        description: "An exceptional and premium ambery, fruity blend designed for lovers of high niche fragrance. Unveils delicious melon, sweet pineapple, luxury amber, and intense musk base notes.",
-        imageUrl: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=600&q=80",
-        stock: 8,
-        category: "niche",
-        createdAt: Timestamp.now(),
-        updatedAt: Timestamp.now()
-      },
-      {
-        name: "Oud Wood Velvet",
-        brand: "Maison Asrar",
-        price: 58,
-        description: "Mystical, heavy fragrance showcasing the finest velvet leather accords coupled with intense sweet incense, luxurious agarwood (oud), cedar, and sweet, dark vanilla trails.",
-        imageUrl: "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=600&q=80",
-        stock: 12,
+        name: "Odyssey Mandarin Sky Elixir (Orange)",
+        brand: "ARMAF",
+        price: 50,
+        description: "Fragrância cítrica, fresca e doce da linha Odyssey.",
+        imageUrl: "https://i.postimg.cc/nc5nDWyB/718576542-889095896786284-6909579052109243575-n.jpg",
+        stock: 10,
         category: "unisex",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
       },
       {
-        name: "9PM Intense",
-        brand: "Afnan",
-        price: 48,
-        description: "A legendary night perfume. Crisp sweet green apple, aromatic wild lavender, fiery cardamon, resting on seductive, deep, honey-like amber, and woody base notes.",
-        imageUrl: "https://images.unsplash.com/photo-1588405748373-122b2321bc31?auto=format&fit=crop&w=600&q=80",
-        stock: 30,
+        name: "Rayhaan Purple",
+        brand: "RAYHAAN",
+        price: 50,
+        description: "Versão doce, frutada e gourmand (morango, baunilha, coco).",
+        imageUrl: "https://i.postimg.cc/RZH4QR9B/719135406-2039937773224467-714147355695276496-n.jpg",
+        stock: 10,
+        category: "unisex",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Yara",
+        brand: "LATTAFA",
+        price: 50,
+        description: "Fragrância feminina doce, gourmand com morango, baunilha e marshmallow.",
+        imageUrl: "https://i.postimg.cc/NjHB74t4/719159691-1331831154968982-411081865657655042-n.jpg",
+        stock: 10,
+        category: "feminine",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Muharib (Maison Asrar)",
+        brand: "MAISON ASRAR",
+        price: 50,
+        description: "Fragrância amadeirada, oriental e intensa com vibe de oud/couro.",
+        imageUrl: "https://i.postimg.cc/RV8vHYkw/719490110-1542279147451441-5121324793331117208-n.jpg",
+        stock: 10,
         category: "masculine",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
       },
       {
-        name: "Golden Elixir Imperial",
-        brand: "Design Perfumes",
-        price: 180,
-        description: "The ultimate peak of luxury perfumery. Cambodian Oud essence, Taif rose petals, premium warm golden honey tobacco, Iranian black saffron, and white musk. Masterpiece bottling.",
-        imageUrl: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=600&q=80",
-        stock: 5,
-        category: "niche",
+        name: "Asad Elixir",
+        brand: "LATTAFA",
+        price: 50,
+        description: "Fragrância intensa, doce e amadeirada com açafrão e baunilha.",
+        imageUrl: "https://i.postimg.cc/4NMX90Dj/719689409-3052856771587326-5073530420645344945-n.jpg",
+        stock: 10,
+        category: "masculine",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
       },
       {
-        name: "Amber & Leather",
-        brand: "Maison Alhambra",
-        price: 42,
-        description: "Warm desert theme. Cardamom, sambac jasmine, intense animalic rustic leather, coupled with patchouli, moss, and warm heavy golden amber trails.",
-        imageUrl: "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=600&q=80",
-        stock: 14,
+        name: "Odyssey Mandarin Sky Elixir (Blue)",
+        brand: "ARMAF",
+        price: 50,
+        description: "Versão laranja/azul da linha Odyssey (cítrica e doce).",
+        imageUrl: "https://i.postimg.cc/J4gRkFfJ/719890963-26923449604022734-1931812089540496897-n.jpg",
+        stock: 10,
         category: "unisex",
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      },
+      {
+        name: "Nocturno Pour Homme",
+        brand: "RAYHAAN",
+        price: 50,
+        description: "Fragrância noturna, amadeirada, fresca e masculina.",
+        imageUrl: "https://i.postimg.cc/T3Dfq9xZ/720654592-26997447969882845-7605294323182373968-n.jpg",
+        stock: 10,
+        category: "masculine",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
       }

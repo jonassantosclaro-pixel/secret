@@ -14,6 +14,7 @@ import {
   onSnapshot, query, orderBy, Timestamp, getDocs 
 } from 'firebase/firestore';
 import { Product, Brand, CategoryObj, Coupon, Socials, Order, OperationType } from '../types';
+import SEEDING_PRODUCTS from '../constants/seedingData.json';
 
 interface AdminPanelProps {
   onClose: () => void;
@@ -79,6 +80,53 @@ export default function AdminPanel({
       alert("Erro ao sincronizar marcas: " + (err instanceof Error ? err.message : String(err)));
     } finally {
       setSyncingBrands(false);
+    }
+  };
+
+  const [isOperating, setIsOperating] = useState(false);
+
+  const handleWipeAllProducts = async () => {
+    if (!confirm("Tem certeza absoluta de que deseja APAGAR TODOS os produtos cadastrados do banco de dados e do site? Essa ação é irreversível!")) {
+      return;
+    }
+    setIsOperating(true);
+    try {
+      const collectionRef = collection(db, 'products');
+      const snap = await getDocs(collectionRef);
+      let count = 0;
+      for (const d of snap.docs) {
+        await deleteDoc(doc(db, 'products', d.id));
+        count++;
+      }
+      alert(`Sucesso! ${count} produtos foram totalmente excluídos do site e do banco de dados.`);
+    } catch (err) {
+      alert("Erro ao excluir produtos: " + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setIsOperating(false);
+    }
+  };
+
+  const handleSeed18Products = async () => {
+    if (!confirm("Deseja cadastrar as 18 fragrâncias premium oficiais nas marcas e categorias corretas?")) {
+      return;
+    }
+    setIsOperating(true);
+    try {
+      let count = 0;
+      for (const prod of SEEDING_PRODUCTS) {
+        const pRef = collection(db, 'products');
+        await addDoc(pRef, {
+          ...prod,
+          createdAt: Timestamp.now(),
+          updatedAt: Timestamp.now()
+        });
+        count++;
+      }
+      alert(`Sucesso! ${count} perfumes oficiais registrados com sucesso no banco de dados!`);
+    } catch (err) {
+      alert("Erro ao semear banco: " + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setIsOperating(false);
     }
   };
 
@@ -487,6 +535,35 @@ export default function AdminPanel({
                     {editingProduct ? `Edit ${editingProduct.name}` : 'Product CRUD Catalogue'}
                   </h3>
                   <p className="text-xs text-zinc-500">Create, view, update, and delete perfumes globally.</p>
+                </div>
+
+                {/* Advanced Admin Catalog Tools */}
+                <div className="p-4 rounded-lg border border-gold-300/10 bg-gradient-to-r from-red-950/20 to-emerald-950/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div>
+                    <h4 className="text-xs font-mono font-bold text-gold-300 uppercase tracking-widest flex items-center gap-1.5">
+                      <RefreshCw className="w-3.5 h-3.5 text-gold-400 animate-spin-slow" />
+                      Controles de Banco de Dados
+                    </h4>
+                    <p className="text-[11px] text-zinc-400 mt-0.5">Apague definitivamente os perfumes atuais ou re-cadastre os 18 originais do postimg.cc de forma instantânea.</p>
+                  </div>
+                  <div className="flex gap-2 flex-wrap pb-1 sm:pb-0">
+                    <button
+                      type="button"
+                      onClick={handleWipeAllProducts}
+                      disabled={isOperating}
+                      className="px-3.5 py-1.5 text-[9px] font-mono uppercase font-bold tracking-wider bg-red-950/40 hover:bg-neutral-900 border border-red-500/25 rounded text-zinc-300 hover:text-red-400 transition-all cursor-pointer disabled:opacity-40"
+                    >
+                      {isOperating ? 'Processando...' : 'Apagar Catálogo Inteiro'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSeed18Products}
+                      disabled={isOperating}
+                      className="px-3.5 py-1.5 text-[9px] font-mono uppercase font-bold tracking-wider bg-emerald-950/40 hover:bg-neutral-900 border border-emerald-500/25 rounded text-zinc-300 hover:text-emerald-400 transition-all cursor-pointer disabled:opacity-40"
+                    >
+                      {isOperating ? 'Processando...' : 'Cadastrar 18 Perfumes Oficiais'}
+                    </button>
+                  </div>
                 </div>
 
                 {/* CRUD FORM */}
