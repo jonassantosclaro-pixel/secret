@@ -49,12 +49,7 @@
 /* Custom styles and overrides */
 body {
   font-family: var(--font-sans);
-  background-image: linear-gradient(to bottom, rgba(5, 5, 5, 0.4) 0%, rgba(5, 5, 5, 0.65) 100%), url('https://i.postimg.cc/sXcJQ2zK/714670297-1487500499358209-5561141093356440737-n.jpg');
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-color: #030611;
+  background-color: #050505;
   color: #ffffff;
   overflow-x: hidden;
 }
@@ -124,12 +119,12 @@ body {
 
 /* Background wallpaper with overlay */
 .luxe-wallpaper {
-  background-image: linear-gradient(to bottom, rgba(5, 5, 5, 0.45) 0%, rgba(5, 5, 5, 0.6) 100%), url('https://i.postimg.cc/sXcJQ2zK/714670297-1487500499358209-5561141093356440737-n.jpg');
+  background-image: linear-gradient(rgba(5, 5, 5, 0.45), rgba(5, 5, 5, 0.45)), url('https://i.postimg.cc/sXcJQ2zK/714670297-1487500499358209-5561141093356440737-n.jpg');
   background-size: cover;
-  background-position: center top;
+  background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-color: #030611;
+  background-color: #050505;
 }
 
 /* Luxury border styles */
