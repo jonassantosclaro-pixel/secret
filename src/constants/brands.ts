@@ -74,7 +74,7 @@ export const OFFICIAL_BRANDS: Brand[] = [
   {
     id: "rayhaan",
     name: "RAYHAAN",
-    logoUrl: "https://i.postimg.cc/LsYNP3X6/Chat-GPT-Image-9-06-2026-12-08-45.png"
+    logoUrl: "https://i.postimg.cc/63hb0Lsp/Chat-GPT-Image-9-de-jun-de-2026-13-54-59.png"
   },
   {
     id: "riffs",
