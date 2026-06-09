@@ -126,7 +126,7 @@ export default function ProductDetailsModal({ product, onClose, onAddToCart }: P
     const isMas = category.toLowerCase() === 'masculine';
     
     return {
-      topBadge: category.toUpperCase(),
+      topBadge: category.toLowerCase() === 'niche' ? 'DECANT' : category.toLowerCase() === 'unisex' ? 'UNISSEX' : category.toUpperCase(),
       featureBadge: isNiche ? "☀️ BEST FOR HEAT" : isFem ? "🌸 EXQUISITE BLEND" : isMas ? "🔥 INTENSE MASCULINE" : "✨ PREMIUM ORIGINAL",
       tag: isNiche ? "FRESH SUMMER" : "EXCLUSIVE LINE",
       size: "EAU DE PARFUM • 100ML",

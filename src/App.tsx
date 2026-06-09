@@ -170,7 +170,21 @@ export default function App() {
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const cats: CategoryObj[] = [];
       snapshot.forEach((doc) => {
-        cats.push({ id: doc.id, ...doc.data() } as CategoryObj);
+        const data = doc.data();
+        let catName = data.name || '';
+        const lowerSlug = (data.slug || doc.id || '').toLowerCase();
+        if (lowerSlug === 'niche' || catName.toUpperCase() === 'NICHE') {
+          catName = 'DECANT';
+        } else if (lowerSlug === 'unisex' || catName.toUpperCase() === 'UNISEX') {
+          catName = 'UNISSEX';
+        } else if (lowerSlug === 'masculine' || catName.toUpperCase() === 'MASCULINE') {
+          catName = 'MASCULINE';
+        } else if (lowerSlug === 'feminine' || catName.toUpperCase() === 'FEMININE') {
+          catName = 'FEMININE';
+        } else {
+          catName = catName.toUpperCase();
+        }
+        cats.push({ id: doc.id, ...data, name: catName } as CategoryObj);
       });
       setCategories(cats);
     }, (error) => {

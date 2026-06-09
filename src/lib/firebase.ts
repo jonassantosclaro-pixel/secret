@@ -75,6 +75,44 @@ export async function testConnection() {
       console.log("Connection test complete (database initialized successfully).");
     }
   }
+
+  // Auto-guarantee that MASCULINE, FEMININE, UNISSEX, and DECANT categories are registered in Firestore with correct names!
+  try {
+    const requiredCats = [
+      { slug: 'masculine', name: 'MASCULINE', order: 1 },
+      { slug: 'feminine', name: 'FEMININE', order: 2 },
+      { slug: 'unisex', name: 'UNISSEX', order: 3 },
+      { slug: 'niche', name: 'DECANT', order: 4 }
+    ];
+
+    for (const cat of requiredCats) {
+      const catRef = doc(db, 'categories', cat.slug);
+      const docSnap = await getDoc(catRef);
+      if (docSnap.exists()) {
+        if (docSnap.data().name !== cat.name || docSnap.data().order !== cat.order) {
+          await updateDoc(catRef, { name: cat.name, order: cat.order });
+          console.log(`Firestore Category '${cat.slug}' updated to '${cat.name}'.`);
+        }
+      } else {
+        await setDoc(catRef, {
+          name: cat.name,
+          slug: cat.slug,
+          order: cat.order,
+          createdAt: Timestamp.now()
+        });
+        console.log(`Firestore Category '${cat.slug}' created with name '${cat.name}'.`);
+      }
+    }
+  } catch (e) {
+    console.warn("Could not auto-ensure category names update in Firestore:", e);
+  }
+
+  // Auto-guarantee that all official brands and their logos are correctly synchronized in Firestore
+  try {
+    await syncOfficialBrands();
+  } catch (e) {
+    console.warn("Could not auto-ensure brands synchronization in Firestore:", e);
+  }
 }
 
 // MANUALLY SYNCHRONIZE OFFICIAL BRANDS (Admin Authorized Only)
@@ -205,8 +243,8 @@ export async function seedInitialData() {
         const defaultCats = [
           { name: "MASCULINE", slug: "masculine", order: 1 },
           { name: "FEMININE", slug: "feminine", order: 2 },
-          { name: "UNISEX", slug: "unisex", order: 3 },
-          { name: "NICHE", slug: "niche", order: 4 }
+          { name: "UNISSEX", slug: "unisex", order: 3 },
+          { name: "DECANT", slug: "niche", order: 4 }
         ];
         const catBatch = writeBatch(db);
         defaultCats.forEach(cat => {

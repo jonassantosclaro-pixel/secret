@@ -27,7 +27,7 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
       <div className="relative aspect-[4/5] bg-neutral-900 overflow-hidden select-none">
         {/* Category tag */}
         <span className="absolute top-3 left-3 z-10 px-2.5 py-1 text-[9px] font-mono font-medium bg-[#0b0a08]/85 text-gold-300 rounded border border-gold-300/15 uppercase tracking-widest">
-          {product.category}
+          {product.category.toLowerCase() === 'niche' ? 'DECANT' : product.category.toLowerCase() === 'unisex' ? 'UNISSEX' : product.category.toUpperCase()}
         </span>
 
         {/* Low Stock Warning */}
